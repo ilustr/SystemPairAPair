@@ -7,6 +7,8 @@ package model.environment;
 
 import java.util.ArrayList;
 import model.agent.Agent;
+import model.agent.Detector;
+import model.agent.Digger;
 import model.utils.Positionable;
 import model.utils.Position;
 
@@ -28,22 +30,22 @@ public class Base implements Positionable {
 
     }
 
-    private void init(int detectorsNumber, int extractorsNumber, int energizersNumber, int transportorNumber) {
+    private void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber) {
         //TODO initialize 
-        for (int i = 0; i < detectorsNumber; ++i) {
-
+        for (int i = 0; i < diggerNumber; ++i) {
+            agents.add(new Digger(this.getPosition()));
         }
 
         for (int i = 0; i < detectorsNumber; ++i) {
-
+            agents.add(new Detector(this.getPosition()));
         }
 
-        for (int i = 0; i < detectorsNumber; ++i) {
-
+        for (int i = 0; i < energizersNumber; ++i) {
+               // agents.add(new Energizer(this.getPosition()));
         }
 
-        for (int i = 0; i < detectorsNumber; ++i) {
-
+        for (int i = 0; i < transportorNumber; ++i) {
+                
         }
 
     }

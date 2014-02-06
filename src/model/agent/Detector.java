@@ -31,6 +31,7 @@ public class Detector extends Agent{
         hasOre = new ArrayList<>();
     }
 
+
     @Override
     public void onReceive(String msg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -58,9 +59,6 @@ public class Detector extends Agent{
         } else {
             // walk randomly dependings on what cases have been visited yet
         }
-        
-        setChanged();
-        notifyObservers();
     }
 
     @Override

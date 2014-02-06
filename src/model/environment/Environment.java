@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import model.agent.Agent;
+import model.utils.Information;
 import model.utils.Position;
 
 /**
  *
  * @author maxime
  */
-public class Environment implements Observer {
+public class Environment {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
@@ -27,13 +28,23 @@ public class Environment implements Observer {
     public static final int TRANSPORTERS_NUMBER = 7;
 
     private Positionable[][] map;
-    
+
+    private static Environment INSTANCE = null;
+
     private Base base;
 
-    public Environment() {
+    private Environment() {
         map = new Positionable[WIDTH][HEIGHT];
         base = new Base(DETECTORS_NUMBER, EXTRACTORS_NUMBER, ENERGIZERS_NUMBER, TRANSPORTERS_NUMBER);
         this.init();
+    }
+
+
+    public static synchronized Environment getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Environment();
+        }
+        return INSTANCE;
     }
 
     public void add(Positionable positionable) {
@@ -46,8 +57,8 @@ public class Environment implements Observer {
         return map[position.x][position.y];
     }
 
-    public Positionable move(Position position) {
-        return map[position.x][position.y];
+    public void empty(Position position) {
+        map[position.x][position.y] = null;
     }
 
     private void init() {
@@ -68,11 +79,14 @@ public class Environment implements Observer {
         return new Position(x, y);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Agent) {
-
+    public boolean moveTo(Positionable positionable, Position newPostion) {
+        if (get(newPostion) == null) {
+            empty(positionable.getPosition());
+            positionable.setPosition(newPostion);
+            add(positionable);
+            return true;
         }
+        return false;
     }
 
 }

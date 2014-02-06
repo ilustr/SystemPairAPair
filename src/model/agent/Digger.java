@@ -60,8 +60,6 @@ public class Digger extends Agent {
         // check if site to dig is reach
         // fi true --> isOnSite = true;
         
-        setChanged();
-        notifyObservers();
     }
 
     @Override
