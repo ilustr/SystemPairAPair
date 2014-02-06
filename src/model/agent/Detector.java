@@ -39,6 +39,8 @@ public class Detector extends Agent{
 
     @Override
     public void doWork() {
+        // doEnergyCheck
+        
         // WALK 
         doWalk();
         
@@ -46,10 +48,9 @@ public class Detector extends Agent{
             // add to list
             // mark it 
             // return to base
-        
-        // Check if energie is sufficient to return to base
-            // if not, gotobase = true;
 
+        // If gotobase && base is reach
+            // doReportToBase();
     }
 
     @Override
@@ -65,5 +66,10 @@ public class Detector extends Agent{
     public void doReload() {
         super.actionPoints = PA_MAX;
     }
-    
+
+    @Override
+    public void doReportToBase() {
+        // Give site discovered
+        doReload();
+    }
 }

@@ -6,26 +6,23 @@
 
 package model.agent;
 
-import java.util.ArrayList;
 import model.utils.Position;
 
 /**
  *
  * @author hugo
  */
-public class Digger extends Agent {
+public class Transporter extends Agent {
     public static final int PA_MAX = 50;
     
-    private Position siteToDig;
-    private boolean isOnSite;
+    private Position siteToTransport;
 
-    public Digger(Position posBase) {
+    public Transporter(Position posBase) {
         super(posBase);
         
         doReload();
         
-        siteToDig = null;
-        isOnSite = false;
+        siteToTransport = null;
     }
 
     @Override
@@ -35,22 +32,18 @@ public class Digger extends Agent {
 
     @Override
     public void doWork() {
-        if (siteToDig != null) {
+        if (siteToTransport != null) {
+            // WALK 
+            doWalk();
             
-            //if (!isOnSite)
-                // WALK 
-                doWalk();
-            //else 
-                // Dig until everythings has been cleared up
-                // once it's finished, mark site has finished
-                // mark isonsite false
-                // mark gotobase true
-                
+            // if site is reach
+            // load ressources
+            // goToBase = true;
+            
             // if gotobase && base is reach
                 // goReportToBase
-
         } else {
-            // Ask the base for a site to dig
+            // Ask the base for a site to transport
         }
 
     }
@@ -62,10 +55,6 @@ public class Digger extends Agent {
         } else {
             // go to site to dig
         }
-        
-        // check if site to dig is reach
-        // fi true --> isOnSite = true;
-        
     }
 
     @Override
@@ -77,8 +66,7 @@ public class Digger extends Agent {
     public void doReportToBase() {
         // drop ressources
         // gotobase false
-        // sitetodig false
-        doReload();
+        // sitetotransport false
     }
     
 }

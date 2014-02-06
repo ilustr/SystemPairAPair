@@ -50,7 +50,9 @@ public abstract class Agent implements Runnable, Positionable {
     public abstract void doWalk();
 
     public abstract void doReload();
-
+    
+    public abstract void doReportToBase();
+    
     public void broadcast(String msg) {
 
     }
@@ -69,5 +71,10 @@ public abstract class Agent implements Runnable, Positionable {
                 Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void doEnergyCheck() {
+        // Check if energie is sufficient to return to base
+            // if not, gotobase = true;
     }
 }
