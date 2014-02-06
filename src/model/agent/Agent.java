@@ -7,6 +7,7 @@
 package model.agent;
 
 import java.util.Observable;
+import model.environment.Environment;
 import model.utils.Position;
 
 /**
@@ -17,8 +18,9 @@ public abstract class Agent extends Observable implements Runnable{
     
     protected int actionPoints;
     protected Position pos;
-    //protected Environment env;
     protected Position posBase; 
+    protected Environment env;
+    protected boolean goToBase;
     
     private boolean kill = false;
 
@@ -26,11 +28,16 @@ public abstract class Agent extends Observable implements Runnable{
     {
         this.posBase = posBase;
         this.pos = posBase;
+        goToBase = false;
     }
     
     public abstract void onReceive(String msg);
     
     public abstract void doWork();
+    
+    public abstract void doWalk();
+    
+    public abstract void doReload();
     
     public void broadcast(String msg) {
         
@@ -47,6 +54,5 @@ public abstract class Agent extends Observable implements Runnable{
         {
             doWork();
         }
-    }
-    
+    }    
 }
