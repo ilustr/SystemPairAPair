@@ -5,6 +5,7 @@
  */
 package syspairapair;
 
+import model.utils.Position;
 import java.util.Observable;
 import java.util.Observer;
 

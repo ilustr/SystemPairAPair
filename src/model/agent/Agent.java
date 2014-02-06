@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package syspairapair;
+package model.agent;
 
 import java.util.Observable;
+import model.utils.Position;
 
 /**
  *
@@ -18,8 +19,10 @@ public abstract class Agent extends Observable implements Runnable{
     protected Position pos;
     //protected Environment env;
     protected Position posBase; 
+    
+    private boolean kill = false;
 
-    public void init(Position posBase)
+    public Agent(Position posBase)
     {
         this.posBase = posBase;
         this.pos = posBase;
@@ -27,18 +30,23 @@ public abstract class Agent extends Observable implements Runnable{
     
     public abstract void onReceive(String msg);
     
+    public abstract void doWork();
+    
     public void broadcast(String msg) {
         
     }
     
     public void end()
     {
-        
+        this.kill = true;
     }
     
     @Override
-    public void run() {
-        
+    public final void run() {
+        while (!kill)
+        {
+            doWork();
+        }
     }
     
 }
