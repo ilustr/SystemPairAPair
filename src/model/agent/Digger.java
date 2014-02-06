@@ -81,4 +81,14 @@ public class Digger extends Agent {
         doReload();
     }
     
+    @Override
+    public String getDisplayString() {
+        return "Digger";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
+    }
+    
 }

@@ -17,6 +17,8 @@ public interface Positionable {
     public void setPosition(Position position);
     
     public Position getPosition();
-
     
+    public String getDisplayString();
+
+    public String getDisplayImage();
 }

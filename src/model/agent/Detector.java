@@ -76,4 +76,14 @@ public class Detector extends Agent{
         // Give site discovered
         doReload();
     }
+
+    @Override
+    public String getDisplayString() {
+        return "Detector";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
+    }
 }

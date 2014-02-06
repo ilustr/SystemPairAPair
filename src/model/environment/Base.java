@@ -64,4 +64,14 @@ public class Base implements Positionable {
     public Position getPosition() {
         return this.position;
     }
+
+    @Override
+    public String getDisplayString() {
+        return "Base";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
+    }
 }
