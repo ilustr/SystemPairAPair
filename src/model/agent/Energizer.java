@@ -63,9 +63,6 @@ public class Energizer extends Agent {
                 // if currentTarget > sitetovisite.size()
                     // gotobase = true;
         }
-        
-        setChanged();
-        notifyObservers();
     }
 
     @Override

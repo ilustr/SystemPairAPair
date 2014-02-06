@@ -55,9 +55,6 @@ public class Transporter extends Agent {
         } else {
             // go to site to dig
         }
-        
-        setChanged();
-        notifyObservers();
     }
 
     @Override
