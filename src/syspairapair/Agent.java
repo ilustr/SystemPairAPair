@@ -6,20 +6,31 @@
 
 package syspairapair;
 
+import java.util.Observable;
+
 /**
  *
  * @author ilustr
  */
-public class Agent implements Runnable{
+public class Agent extends Observable implements Runnable{
+    
+    protected int actionPoints;
+    protected Position pos;
+    //protected Environment env;
+    protected Position posBase; 
 
-    public void init()
+    public void init(Position posBase)
     {
+        this.posBase = posBase;
+        this.pos = posBase;
+    }
+    
+    public abstract void onReceive(String msg);
+    
+    public void broadcast(String msg) {
         
     }
-    public void onReceive()
-    {
-
-    }
+    
     public void end()
     {
         
