@@ -8,6 +8,8 @@ package model.agent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import model.environment.Environment;
 import model.utils.Position;
 
 /**
@@ -39,7 +41,7 @@ public class Detector extends Agent{
 
     @Override
     public void doWork() {
-        // doEnergyCheck
+        super.doEnergyCheck();
         
         // WALK 
         doWalk();
@@ -56,9 +58,11 @@ public class Detector extends Agent{
     @Override
     public void doWalk() {
         if (goToBase) {
-            // return to base
+            moveTo(posBase);
         } else {
             // walk randomly dependings on what cases have been visited yet
+            Random rand = new Random();
+            moveTo(new Position(rand.nextInt(Environment.WIDTH), rand.nextInt(Environment.HEIGHT)));
         }
     }
 

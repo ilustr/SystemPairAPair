@@ -30,7 +30,6 @@ public abstract class Agent implements Runnable,Positionable{
         this.pos = posBase;
         goToBase = false;
     }
-    
 
     @Override
     public Position getPosition() {
@@ -74,5 +73,74 @@ public abstract class Agent implements Runnable,Positionable{
     public void doEnergyCheck() {
         // Check if energie is sufficient to return to base
             // if not, gotobase = true;
+    }
+    
+    public boolean moveTo(Position posTarget){
+        int x=0, y=0;
+        
+        // Select x
+        if (posTarget.x > pos.x)
+            x = 1;
+        else if (posTarget.x < pos.x)
+            x = - 1;
+        
+        // Select y
+        if (posTarget.y > pos.y)
+            y = 1;
+        else if (posTarget.y < pos.y)
+            y = - 1; 
+
+        Position newPos = new Position(pos.x +x, pos.y + y); 
+        if (Environment.getInstance().moveTo(this, newPos)) {
+            this.pos = newPos;
+            return true;
+        } else {
+            if (x == 0)
+            {
+                for (int i = -1; i <= 1; i++) {
+                    newPos = new Position(pos.x +i, pos.y + y); 
+                    if (Environment.getInstance().moveTo(this, newPos)) {
+                        this.pos = newPos;
+                        return true;
+                    }
+                }
+            }   
+            else if (y == 0)
+            {
+                for (int i = -1; i <= 1; i++) {
+                    newPos = new Position(pos.x +x, pos.y +i); 
+                    if (Environment.getInstance().moveTo(this, newPos)) {
+                        this.pos = newPos;
+                        return true;
+                    }
+                }
+            }
+            else 
+            {
+                newPos = new Position(pos.x, pos.y +y); 
+                if (Environment.getInstance().moveTo(this, newPos)) {
+                    this.pos = newPos;
+                    return true;
+                } else {
+                    newPos = new Position(pos.x + x, pos.y ); 
+                    if (Environment.getInstance().moveTo(this, newPos)) {
+                        this.pos = newPos;
+                        return true;
+                    } 
+                }
+            }
+            
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    newPos = new Position(pos.x + i, pos.y +j ); 
+                    if (Environment.getInstance().moveTo(this, newPos)) {
+                        this.pos = newPos;
+                        return true;
+                    }
+                }
+            }
+            
+            return false;
+        }
     }
 }
