@@ -78,7 +78,8 @@ public abstract class Agent implements Runnable, Positionable {
             // if not, gotobase = true;
     }
     
-    public boolean moveTo(Position posTarget){
+    private boolean moveAlgorithm(Position posTarget)
+    {
         int x=0, y=0;
         
         // Select x
@@ -145,5 +146,16 @@ public abstract class Agent implements Runnable, Positionable {
             
             return false;
         }
+    }
+    
+    public boolean moveTo(Position posTarget){
+        if (actionPoints == 0)
+            return false;
+        if (moveAlgorithm(posTarget))
+        {
+            actionPoints--;
+            return true;
+        }
+        return false;
     }
 }
