@@ -5,6 +5,10 @@
  */
 package model.environment;
 
+import java.util.ArrayList;
+import model.agent.Agent;
+import model.agent.Detector;
+import model.agent.Digger;
 import model.utils.Positionable;
 import model.utils.Position;
 
@@ -12,16 +16,49 @@ import model.utils.Position;
  *
  * @author maxime
  */
-public class Base implements  Positionable{
+public class Base implements Positionable {
 
     private Position position;
+    private ArrayList<Agent> agents;
 
     public Base(Position position) {
         this.position = position;
     }
 
-    public Base() {
+    public Base(int detectorsNumber, int extractorsNumber, int energizersNumber, int transportorNumber) {
+        agents = new ArrayList<>();
+
     }
+
+    private void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber) {
+        //TODO initialize 
+        for (int i = 0; i < diggerNumber; ++i) {
+            agents.add(new Digger(this.getPosition()));
+        }
+
+        for (int i = 0; i < detectorsNumber; ++i) {
+            agents.add(new Detector(this.getPosition()));
+        }
+
+        for (int i = 0; i < energizersNumber; ++i) {
+               // agents.add(new Energizer(this.getPosition()));
+        }
+
+        for (int i = 0; i < transportorNumber; ++i) {
+                
+        }
+
+    }
+
+    public ArrayList<Agent> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(ArrayList<Agent> agents) {
+        this.agents = agents;
+    }
+    
+    
 
     @Override
     public void setPosition(Position position) {

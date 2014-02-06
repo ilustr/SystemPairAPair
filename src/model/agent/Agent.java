@@ -9,17 +9,17 @@ package model.agent;
 import java.util.Observable;
 import model.environment.Environment;
 import model.utils.Position;
+import model.utils.Positionable;
 
 /**
  *
  * @author ilustr
  */
-public abstract class Agent extends Observable implements Runnable{
+public abstract class Agent implements Runnable,Positionable{
     
     protected int actionPoints;
     protected Position pos;
     protected Position posBase; 
-    protected Environment env;
     protected boolean goToBase;
     
     private boolean kill = false;
@@ -30,6 +30,19 @@ public abstract class Agent extends Observable implements Runnable{
         this.pos = posBase;
         goToBase = false;
     }
+    
+
+    @Override
+    public Position getPosition() {
+        return pos;
+    }
+
+    @Override
+    public void setPosition(Position position){
+        this.pos = position;
+    }
+    
+    
     
     public abstract void onReceive(String msg);
     
