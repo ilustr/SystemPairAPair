@@ -39,6 +39,8 @@ public abstract class Agent extends Observable implements Runnable{
     
     public abstract void doReload();
     
+    public abstract void doReportToBase();
+    
     public void broadcast(String msg) {
         
     }
@@ -54,5 +56,10 @@ public abstract class Agent extends Observable implements Runnable{
         {
             doWork();
         }
-    }    
+    }
+    
+    public void doEnergyCheck() {
+        // Check if energie is sufficient to return to base
+            // if not, gotobase = true;
+    }
 }
