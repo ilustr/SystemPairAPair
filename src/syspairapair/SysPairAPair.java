@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package syspairapair;
+
+import model.agent.Agent;
+import model.environment.Environment;
 
 /**
  *
@@ -15,8 +17,16 @@ public class SysPairAPair {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws InterruptedException {
+        Environment env = Environment.getInstance();
+       
+        env.startGame();
+        
+        while (true){
+            Thread.sleep(Agent.TIME_SLEEP_MS);
+            env.displayMap();
+        }
+
     }
-    
+
 }

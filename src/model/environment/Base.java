@@ -21,19 +21,16 @@ public class Base implements Positionable {
     private Position position;
     private ArrayList<Agent> agents;
 
-    public Base(Position position) {
-        this.position = position;
-    }
-
     public Base(int detectorsNumber, int extractorsNumber, int energizersNumber, int transportorNumber) {
         agents = new ArrayList<>();
-
+        init(detectorsNumber, extractorsNumber, energizersNumber, transportorNumber);
     }
 
     private void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber) {
         //TODO initialize 
         for (int i = 0; i < diggerNumber; ++i) {
             agents.add(new Digger(this.getPosition()));
+
         }
 
         for (int i = 0; i < detectorsNumber; ++i) {
@@ -41,11 +38,11 @@ public class Base implements Positionable {
         }
 
         for (int i = 0; i < energizersNumber; ++i) {
-               // agents.add(new Energizer(this.getPosition()));
+            // agents.add(new Energizer(this.getPosition()));
         }
 
         for (int i = 0; i < transportorNumber; ++i) {
-                
+
         }
 
     }
@@ -57,8 +54,6 @@ public class Base implements Positionable {
     public void setAgents(ArrayList<Agent> agents) {
         this.agents = agents;
     }
-    
-    
 
     @Override
     public void setPosition(Position position) {
