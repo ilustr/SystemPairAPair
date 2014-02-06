@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package syspairapair;
+package model.environment;
+
+import model.utils.Positionable;
+import model.utils.Position;
 
 /**
  *
@@ -29,8 +32,4 @@ public class Base implements  Positionable{
     public Position getPosition() {
         return this.position;
     }
-
-    
-    
-
 }

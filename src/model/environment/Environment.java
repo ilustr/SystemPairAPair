@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package syspairapair;
+package model.environment;
 
+import model.utils.Positionable;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import model.agent.Agent;
+import model.utils.Position;
 
 /**
  *
  * @author maxime
  */
-public class Environnement implements Observer {
+public class Environment implements Observer {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
@@ -24,7 +27,7 @@ public class Environnement implements Observer {
     private ArrayList<Agent> agents;
     
     
-    public Environnement() {
+    public Environment() {
         map = new Positionable[WIDTH][HEIGHT];
         base = new Base();
         agents = new ArrayList<>();
