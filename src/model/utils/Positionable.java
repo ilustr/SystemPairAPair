@@ -10,6 +10,11 @@ package syspairapair;
  *
  * @author maxime
  */
-public class Base {
+public interface Positionable {
+    
+    public void setPosition(Position position);
+    
+    public Position getPosition();
+
     
 }
