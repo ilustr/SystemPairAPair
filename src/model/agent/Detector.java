@@ -8,6 +8,7 @@ package model.agent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import model.environment.Environment;
 import model.utils.Position;
 
 /**
@@ -71,5 +72,15 @@ public class Detector extends Agent{
     public void doReportToBase() {
         // Give site discovered
         doReload();
+    }
+
+    @Override
+    public String getDisplayString() {
+        return "Detector";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
     }
 }

@@ -5,6 +5,7 @@
  */
 package syspairapair;
 
+import ihm.IHM;
 import model.agent.Agent;
 import model.environment.Environment;
 
@@ -22,10 +23,7 @@ public class SysPairAPair {
        
         env.startGame();
         
-        while (true){
-            Thread.sleep(Agent.TIME_SLEEP_MS);
-            env.displayMap();
-        }
+        new IHM(1024,780);
 
     }
 

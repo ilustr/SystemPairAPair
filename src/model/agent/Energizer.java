@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model.agent;
 
 import java.util.ArrayList;
@@ -14,16 +13,17 @@ import model.utils.Position;
  * @author hugo
  */
 public class Energizer extends Agent {
-     public static final int PA_MAX = 500;
-    
+
+    public static final int PA_MAX = 500;
+
     private ArrayList<Position> sitesToVisit;
     private int currentTarget;
 
     public Energizer(Position posBase) {
         super(posBase);
-        
+
         doReload();
-        
+
         currentTarget = 0;
         sitesToVisit = new ArrayList<>();
     }
@@ -31,20 +31,19 @@ public class Energizer extends Agent {
     @Override
     public void onReceive(String msg) {
         // msg == "NEED ENERGY"
-            // fill agent's tank
-        
+        // fill agent's tank
+
     }
 
     @Override
     public void doWork() {
         if (sitesToVisit.size() != 0) {
-           super.doEnergyCheck();
-           
-           // WALK 
-           doWalk();
-           
-            
-           // broadcast ( "need-energy?" )
+            super.doEnergyCheck();
+
+            // WALK 
+            doWalk();
+
+            // broadcast ( "need-energy?" )
         } else {
             // Ask the base for a site to transport
         }
@@ -57,11 +56,11 @@ public class Energizer extends Agent {
             // return to base
         } else {
             // go to site to visit currentTarget
-            
+
             // if reach site(currentTarget)
-                // currentTarget++
-                // if currentTarget > sitetovisite.size()
-                    // gotobase = true;
+            // currentTarget++
+            // if currentTarget > sitetovisite.size()
+            // gotobase = true;
         }
     }
 
@@ -75,5 +74,15 @@ public class Energizer extends Agent {
         // drop ressources
         // gotobase false
         // sitetotransport false
+    }
+
+    @Override
+    public String getDisplayString() {
+        return "Energizer";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
     }
 }

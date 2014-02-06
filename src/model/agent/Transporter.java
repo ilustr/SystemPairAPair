@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model.agent;
 
 import model.utils.Position;
@@ -13,15 +12,16 @@ import model.utils.Position;
  * @author hugo
  */
 public class Transporter extends Agent {
+
     public static final int PA_MAX = 50;
-    
+
     private Position siteToTransport;
 
     public Transporter(Position posBase) {
         super(posBase);
-        
+
         doReload();
-        
+
         siteToTransport = null;
     }
 
@@ -35,13 +35,12 @@ public class Transporter extends Agent {
         if (siteToTransport != null) {
             // WALK 
             doWalk();
-            
+
             // if site is reach
             // load ressources
             // goToBase = true;
-            
             // if gotobase && base is reach
-                // goReportToBase
+            // goReportToBase
         } else {
             // Ask the base for a site to transport
         }
@@ -68,5 +67,14 @@ public class Transporter extends Agent {
         // gotobase false
         // sitetotransport false
     }
-    
+
+    @Override
+    public String getDisplayString() {
+        return "Transportor";
+    }
+
+    @Override
+    public String getDisplayImage() {
+        return null;
+    }
 }

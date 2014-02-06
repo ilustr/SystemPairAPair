@@ -19,10 +19,10 @@ import model.utils.Position;
  *
  * @author maxime
  */
-public class Environment {
+public class Environment extends Observable {
 
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
+    public static final int WIDTH = 15;
+    public static final int HEIGHT = 15;
 
     public static final int DETECTORS_NUMBER = 5;
     public static final int DIGGERS_NUMBER = 7;
@@ -81,11 +81,20 @@ public class Environment {
         return new Position(x, y);
     }
 
-    public boolean moveTo(Positionable positionable, Position newPostion) {
-        if (get(newPostion) == null) {
+    public boolean moveTo(Positionable positionable, Position newPosition) {
+        if (newPosition.x < 0 || newPosition.x >= WIDTH || newPosition.y < 0 || newPosition.y >= HEIGHT) {
+            return false;
+        }
+
+        if (get(newPosition) == null) {
+            ArrayList<Position> sendPos = new ArrayList<>();
+            sendPos.add(positionable.getPosition());
             empty(positionable.getPosition());
-            positionable.setPosition(newPostion);
+            positionable.setPosition(newPosition);
+            sendPos.add(newPosition);
             add(positionable);
+            setChanged();
+            notifyObservers(sendPos);
             return true;
         }
         return false;
