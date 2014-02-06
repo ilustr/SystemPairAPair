@@ -8,12 +8,13 @@ package model.agent;
 
 import java.util.Observable;
 import model.utils.Position;
+import model.utils.Positionable;
 
 /**
  *
  * @author ilustr
  */
-public abstract class Agent extends Observable implements Runnable{
+public abstract class Agent extends Observable implements Runnable,Positionable{
     
     protected int actionPoints;
     protected Position pos;
