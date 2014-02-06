@@ -12,7 +12,7 @@ import java.util.Observable;
  *
  * @author ilustr
  */
-public class Agent extends Observable implements Runnable{
+public abstract class Agent extends Observable implements Runnable{
     
     protected int actionPoints;
     protected Position pos;
