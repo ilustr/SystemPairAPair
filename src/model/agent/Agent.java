@@ -23,6 +23,7 @@ public abstract class Agent implements Runnable, Positionable {
     protected int actionPoints;
     protected Position pos;
     protected Position posBase;
+    protected boolean active;
     protected boolean goToBase;
 
     private boolean kill = false;
@@ -30,6 +31,7 @@ public abstract class Agent implements Runnable, Positionable {
     public Agent(Position posBase) {
         this.posBase = posBase;
         this.pos = posBase;
+        this.active = false;
         goToBase = false;
     }
 
@@ -85,6 +87,14 @@ public abstract class Agent implements Runnable, Positionable {
             // if not, gotobase = true;
             this.goToBase = true;
         }
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     
     private boolean moveAlgorithm(Position posTarget)

@@ -11,6 +11,7 @@ import java.util.Observable;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
+import model.utils.Information;
 import model.utils.Position;
 
 /**
@@ -22,8 +23,8 @@ public class Environment extends Observable {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     
-    public static final int MIN_QUANTITY_ORE = 12;
-    public static final int MAX_QUANTITY_ORE = 29;
+    public static final int MIN_QUANTITY_ORE = 5;
+    public static final int MAX_QUANTITY_ORE = 20;
 
     public static final int DETECTORS_NUMBER = 5;
     public static final int ORE_NUMBER = 5;
@@ -109,8 +110,11 @@ public class Environment extends Observable {
             positionable.setPosition(newPosition);
             sendPos.add(newPosition);
             add(positionable);
+            Information infos = new Information();
+            infos.setPos(sendPos);
+            infos.setSource(positionable);
             setChanged();
-            notifyObservers(sendPos);
+            notifyObservers(infos);
             return true;
         }
         return false;

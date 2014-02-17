@@ -6,12 +6,31 @@
 
 package model.utils;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author maxime
  */
 public class Information {
-    public Position position;
-    public boolean state;
-    public int level;
+    public ArrayList<Position> pos;
+    public Positionable source;
+
+    public ArrayList<Position> getPos() {
+        return pos;
+    }
+
+    public void setPos(ArrayList<Position> pos) {
+        this.pos = pos;
+    }
+
+    public Positionable getSource() {
+        return source;
+    }
+
+    public void setSource(Positionable source) {
+        this.source = source;
+    }
+    
+    
 }
