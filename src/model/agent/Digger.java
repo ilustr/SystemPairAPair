@@ -46,7 +46,7 @@ public class Digger extends Agent {
                 doWalk();
             else {
                 // Dig until everythings has been cleared up
-                if(/*Environment.getInstance().dig(pos)*/false)
+                if(Environment.getInstance().dig(siteToDig))
                 {
                 // once it's finished, mark site has finished
                     this.isOnSite = false;
@@ -54,7 +54,7 @@ public class Digger extends Agent {
                     this.hasFinished = true;
                 }
             } 
-            if (this.goToBase && this.pos.equals(posBase))
+            if (this.goToBase && Environment.getInstance().nextTo(posBase))
             {
                 this.doReportToBase();
             }
@@ -66,14 +66,14 @@ public class Digger extends Agent {
 
     @Override
     public void doWalk() {
-        if (goToBase) {
+        if (goToBase && Environment.nextTo(this, posBase)) {
             this.moveTo(posBase);
         } else {
             this.moveTo(siteToDig);
         }
         
-        if(this.pos.equals(siteToDig))
-                this.isOnSite = true;
+        if( Environment.nextTo(this, siteToDig))
+            this.isOnSite = true;
         
     }
 

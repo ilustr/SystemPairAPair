@@ -50,9 +50,9 @@ public class Environment extends Observable {
         return INSTANCE;
     }
 
-    public synchronized boolean dig(Positionable positionable) {
-        if (get(positionable.getPosition()) instanceof Ore) {
-            return ((Ore) positionable).dig();
+    public synchronized boolean dig(Position pos) {
+        if (get(pos) instanceof Ore) {
+            return ((Ore) get(pos)).dig();
         }
         return false;
     }

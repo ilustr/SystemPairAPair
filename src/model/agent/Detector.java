@@ -53,7 +53,7 @@ public class Detector extends Agent{
         // IF (ore around)
         isThereAnyOreOutThere();
 
-        if(this.goToBase && this.pos.equals(posBase))
+        if(this.goToBase && Environment.nextTo(this, posBase))
         {
             this.doReportToBase();
         }
@@ -75,15 +75,13 @@ public class Detector extends Agent{
 
     @Override
     public void doWalk() {
-        if (goToBase) {
+        if (goToBase && Environment.nextTo(this, posBase)) {
             moveTo(posBase);
         } else {
-            if (nextGoal == null || this.pos.equals(nextGoal)) {
+            if (nextGoal == null || Environment.nextTo(this, nextGoal)) {
                 // walk randomly dependings on what cases have been visited yet
                 nextGoal = Environment.getInstance().getRandomPosition();
-                System.out.println("goes there");
             } 
-            System.out.println("next goal : "+ nextGoal.x + " - "+ nextGoal.y);
             moveTo(nextGoal);            
         }
     }
@@ -100,6 +98,8 @@ public class Detector extends Agent{
         }
         this.hasOre.clear();
         doReload();
+        nextGoal = null;
+        this.goToBase = false;
     }
 
     @Override
