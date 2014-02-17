@@ -18,7 +18,7 @@ import model.utils.Position;
  * @author hugo
  */
 public class Detector extends Agent{
-    public static final int PA_MAX = 50;
+    public static final int PA_MAX = 30;
     public static final int DETECTOR_VISIBILITY = 2;
     
     private ArrayList<Position> visitedYet;
@@ -53,7 +53,7 @@ public class Detector extends Agent{
         // IF (ore around)
         isThereAnyOreOutThere();
 
-        if(this.goToBase && Environment.nextTo(this, posBase))
+        if(this.goToBase && Environment.isNextTo(this, posBase))
         {
             this.doReportToBase();
         }
@@ -75,10 +75,10 @@ public class Detector extends Agent{
 
     @Override
     public void doWalk() {
-        if (goToBase && Environment.nextTo(this, posBase)) {
+        if (goToBase && Environment.isNextTo(this, posBase)) {
             moveTo(posBase);
         } else {
-            if (nextGoal == null || Environment.nextTo(this, nextGoal)) {
+            if (nextGoal == null || Environment.isNextTo(this, nextGoal)) {
                 // walk randomly dependings on what cases have been visited yet
                 nextGoal = Environment.getInstance().getRandomPosition();
             } 
@@ -93,7 +93,9 @@ public class Detector extends Agent{
 
     @Override
     public void doReportToBase() {
+        System.out.println("report1");
         for (Position position : this.hasOre) {
+            System.out.println("report");
             Environment.getInstance().getBase().addDiscovered(position);
         }
         this.hasOre.clear();

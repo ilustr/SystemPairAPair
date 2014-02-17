@@ -39,42 +39,47 @@ public class Digger extends Agent {
 
     @Override
     public void doWork() {
-        if (siteToDig != null) {
-            
-            if (!isOnSite)
-                // WALK 
-                doWalk();
-            else {
+        if (siteToDig != null) 
+        {
+            if (isOnSite) {
                 // Dig until everythings has been cleared up
-                if(Environment.getInstance().dig(siteToDig))
+                if(!Environment.getInstance().dig(siteToDig))
                 {
                 // once it's finished, mark site has finished
                     this.isOnSite = false;
                     this.goToBase = true;
                     this.hasFinished = true;
                 }
-            } 
-            if (this.goToBase && Environment.getInstance().nextTo(posBase))
+            }
+            else if (this.goToBase && Environment.isNextTo(this, posBase))
             {
                 this.doReportToBase();
             }
-        } else {
-            this.siteToDig = Environment.getInstance().getBase().getDiscovered();
         }
-
+        else if (Environment.isNextTo(this, posBase)) 
+        {
+            System.out.println("lol");
+            this.siteToDig = Environment.getInstance().getBase().getDiscovered();
+            System.out.println("site to dig "+ siteToDig);
+            if (siteToDig != null) {
+                goToBase = false;
+            }
+        }
+        
+        doWalk();
     }
 
     @Override
     public void doWalk() {
-        if (goToBase && Environment.nextTo(this, posBase)) {
+        if (goToBase && !Environment.isNextTo(this, posBase)) {
             this.moveTo(posBase);
-        } else {
+        } else if (!isOnSite && siteToDig != null) {
             this.moveTo(siteToDig);
+            
+            if( Environment.isNextTo(this, siteToDig))
+                this.isOnSite = true;  
         }
-        
-        if( Environment.nextTo(this, siteToDig))
-            this.isOnSite = true;
-        
+              
     }
 
     @Override
@@ -84,7 +89,6 @@ public class Digger extends Agent {
 
     @Override
     public void doReportToBase() {
-        goToBase = false;
         if (hasFinished) {
             Environment.getInstance().getBase().addExtracted(siteToDig);
             siteToDig = null;

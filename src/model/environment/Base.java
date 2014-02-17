@@ -30,7 +30,7 @@ public class Base implements Positionable {
 
     public Base() { }
 
-    public void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber, Position pos) {
+    public void init(Position pos) {
         agents = new ArrayList<>();
         discovered = new ArrayList<>();
         extracted = new ArrayList<>();
@@ -40,19 +40,19 @@ public class Base implements Positionable {
         
         this.setPosition(pos);
         
-        for (int i = 0; i < diggerNumber; ++i) {
+        for (int i = 0; i < Environment.DIGGERS_NUMBER; ++i) {
             agents.add(new Digger(this.getPosition()));
         }
 
-        for (int i = 0; i < detectorsNumber; ++i) {
+        for (int i = 0; i < Environment.DETECTORS_NUMBER; ++i) {
             agents.add(new Detector(this.getPosition()));
         }
 
-        for (int i = 0; i < energizersNumber; ++i) {
+        for (int i = 0; i < Environment.ENERGIZERS_NUMBER; ++i) {
             // agents.add(new Energizer(this.getPosition()));
         }
 
-        for (int i = 0; i < transportorNumber; ++i) {
+        for (int i = 0; i < Environment.TRANSPORTERS_NUMBER; ++i) {
 
         }
 
@@ -86,7 +86,7 @@ public class Base implements Positionable {
        return new ImageIcon(getClass().getResource("/images/base.png"));
     }
 
-    public Position getDiscovered() {
+    public synchronized Position getDiscovered() {
         if(discovered.size() > 0)
         {
             Position pos = discovered.get(0);
@@ -96,15 +96,16 @@ public class Base implements Positionable {
             return null;
     }
 
-    public boolean addDiscovered(Position e) {
+    public synchronized boolean addDiscovered(Position e) {
         if (addRecord(e)) {
             addToEnergize(e);
+            System.out.println("Add discovered site : "+e.x+ "-"+e.y);
             return discovered.add(e);
         } else
             return false;
     }
     
-    public Position getExtracted() {
+    public synchronized Position getExtracted() {
         if(extracted.size() > 0)
         {
             Position pos = extracted.get(0);
@@ -114,10 +115,10 @@ public class Base implements Positionable {
             return null;
     }
 
-    public boolean addExtracted(Position e) {
+    public synchronized boolean addExtracted(Position e) {
         return extracted.add(e);
     }
-    public Position getToEnergize() {
+    public synchronized Position getToEnergize() {
         if(toEnergize.size() > 0)
         {
             Position pos = toEnergize.get(0);
@@ -127,16 +128,16 @@ public class Base implements Positionable {
             return null;
     }
 
-    public boolean addToEnergize(Position e) {
+    public synchronized boolean addToEnergize(Position e) {
         return toEnergize.add(e);
     }
     
-    public boolean addTransported(Position e) {
+    public synchronized boolean addTransported(Position e) {
         return transported.add(e);
     }
     
-    public boolean addRecord(Position e) {
-        if (isSiteKnown(e))
+    public synchronized boolean addRecord(Position e) {
+        if (!isSiteKnown(e))
             return siteRecorded.add(e);
         else
             return false;
