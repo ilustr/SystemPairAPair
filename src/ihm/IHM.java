@@ -20,18 +20,26 @@ import model.utils.Positionable;
 public class IHM extends JFrame implements Observer {
 
     private JLabel[][] cells;
+    private JLabel background;
 
     public IHM(int width, int height) {
         cells = new JLabel[Environment.WIDTH][Environment.HEIGHT];
+        initBackground();
         init();
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(width, height);
         Environment.getInstance().addObserver(this);
     }
+    
+    private void initBackground(){
+        setLayout(new BorderLayout());
+        background = new JLabel(new ImageIcon(getClass().getResource("/images/backGroundSpace2.jpg")));
+        add(background);
+        background.setLayout(new GridLayout(Environment.WIDTH, Environment.HEIGHT));
+    }
 
     private void init() {
-        setLayout(new GridLayout(Environment.WIDTH, Environment.HEIGHT));
         for (int i = 0; i < Environment.WIDTH; ++i) {
             for (int j = 0; j < Environment.HEIGHT; j++) {
                 //    System.out.println("i " + i  + " j " + j );
@@ -41,7 +49,7 @@ public class IHM extends JFrame implements Observer {
                 } else {
                     cells[i][j] = new JLabel(" ");
                 }
-                add(cells[i][j]);
+                background.add(cells[i][j]);
             }
         }
     }
