@@ -58,7 +58,7 @@ public class Digger extends Agent {
                 this.doReportToBase();
             }
         } else {
-            // Ask the base for a site to dig
+            this.siteToDig = Environment.getInstance().getBase().getDiscovered();
         }
 
     }
@@ -85,8 +85,9 @@ public class Digger extends Agent {
     public void doReportToBase() {
         goToBase = false;
         if (hasFinished) {
-//            Environment.getInstance().getBase()
+            Environment.getInstance().getBase().addExtracted(siteToDig);
             siteToDig = null;
+            hasFinished = false;
         }
         doReload();
     }
