@@ -66,6 +66,8 @@ public abstract class Agent implements Runnable, Positionable {
         while (!kill) {
             try {
                 doWork();
+                this.actionPoints--;
+                this.doEnergyCheck();
                 Thread.sleep(TIME_SLEEP_MS);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,8 +76,15 @@ public abstract class Agent implements Runnable, Positionable {
     }
     
     public void doEnergyCheck() {
+        
+        int distBase = Math.abs(this.posBase.x-this.pos.x) + Math.abs(this.posBase.y-this.pos.y);
+        
         // Check if energie is sufficient to return to base
+        if(this.actionPoints > distBase * 1.5)
+        {
             // if not, gotobase = true;
+            this.goToBase = true;
+        }
     }
     
     private boolean moveAlgorithm(Position posTarget)
@@ -153,7 +162,6 @@ public abstract class Agent implements Runnable, Positionable {
             return false;
         if (moveAlgorithm(posTarget))
         {
-            actionPoints--;
             return true;
         }
         return false;

@@ -19,4 +19,26 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    public boolean equals(Position obj) {
+        if (obj == null) {
+            return false;
+        }
+   
+        if (this.x != obj.x) {
+            return false;
+        }
+        if (this.y != obj.y) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

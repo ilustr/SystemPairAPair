@@ -36,7 +36,7 @@ public class Detector extends Agent{
 
     @Override
     public void onReceive(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Detector.Onreceive : Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

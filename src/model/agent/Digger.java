@@ -7,6 +7,7 @@
 package model.agent;
 
 import java.util.ArrayList;
+import model.environment.Environment;
 import model.utils.Position;
 
 /**
@@ -18,6 +19,7 @@ public class Digger extends Agent {
     
     private Position siteToDig;
     private boolean isOnSite;
+    private boolean hasFinished;
 
     public Digger(Position posBase) {
         super(posBase);
@@ -26,6 +28,7 @@ public class Digger extends Agent {
         
         siteToDig = null;
         isOnSite = false;
+        hasFinished = true;
     }
 
     @Override
@@ -37,18 +40,23 @@ public class Digger extends Agent {
     public void doWork() {
         if (siteToDig != null) {
             
-            //if (!isOnSite)
+            if (!isOnSite)
                 // WALK 
                 doWalk();
-            //else 
+            else {
                 // Dig until everythings has been cleared up
+                if(/*Environment.getInstance().dig(pos)*/false)
+                {
                 // once it's finished, mark site has finished
-                // mark isonsite false
-                // mark gotobase true
-                
-            // if gotobase && base is reach
-                // goReportToBase
-
+                    this.isOnSite = false;
+                    this.goToBase = true;
+                    this.hasFinished = true;
+                }
+            } 
+            if (this.goToBase && this.pos.equals(posBase))
+            {
+                this.doReportToBase();
+            }
         } else {
             // Ask the base for a site to dig
         }
@@ -58,13 +66,13 @@ public class Digger extends Agent {
     @Override
     public void doWalk() {
         if (goToBase) {
-            // return to base
+            this.moveTo(posBase);
         } else {
-            // go to site to dig
+            this.moveTo(siteToDig);
         }
         
-        // check if site to dig is reach
-        // fi true --> isOnSite = true;
+        if(this.pos.equals(siteToDig))
+                this.isOnSite = true;
         
     }
 
@@ -75,9 +83,11 @@ public class Digger extends Agent {
 
     @Override
     public void doReportToBase() {
-        // drop ressources
-        // gotobase false
-        // sitetodig false
+        goToBase = false;
+        if (hasFinished) {
+//            Environment.getInstance().getBase()
+            siteToDig = null;
+        }
         doReload();
     }
     
