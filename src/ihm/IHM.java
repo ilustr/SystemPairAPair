@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,6 +38,7 @@ public class IHM extends JFrame implements Observer {
         background = new JLabel(new ImageIcon(getClass().getResource("/images/backGroundSpace2.jpg")));
         add(background);
         background.setLayout(new GridLayout(Environment.WIDTH, Environment.HEIGHT));
+        background.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
     }
 
     private void init() {
@@ -49,6 +51,7 @@ public class IHM extends JFrame implements Observer {
                 } else {
                     cells[i][j] = new JLabel(" ");
                 }
+                cells[i][j].setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
                 background.add(cells[i][j]);
             }
         }
