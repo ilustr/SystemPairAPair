@@ -8,6 +8,7 @@ package model.agent;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import model.environment.Environment;
 import model.utils.Position;
 
 /**

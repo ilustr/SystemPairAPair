@@ -80,7 +80,7 @@ public abstract class Agent implements Runnable, Positionable {
         int distBase = Math.abs(this.posBase.x-this.pos.x) + Math.abs(this.posBase.y-this.pos.y);
         
         // Check if energie is sufficient to return to base
-        if(this.actionPoints > distBase * 1.5)
+        if(this.actionPoints < distBase * 1.5)
         {
             // if not, gotobase = true;
             this.goToBase = true;

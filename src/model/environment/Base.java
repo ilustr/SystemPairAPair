@@ -28,13 +28,9 @@ public class Base implements Positionable {
     private ArrayList<Position> siteRecorded;
     
 
-    public Base(int detectorsNumber, int extractorsNumber, int energizersNumber, int transportorNumber) {
-        init(detectorsNumber, extractorsNumber, energizersNumber, transportorNumber);
-    }
+    public Base() { }
 
-    private void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber) {
-        //TODO initialize 
-        
+    public void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber, Position pos) {
         agents = new ArrayList<>();
         discovered = new ArrayList<>();
         extracted = new ArrayList<>();
@@ -42,9 +38,10 @@ public class Base implements Positionable {
         toEnergize = new ArrayList<>();
         siteRecorded = new ArrayList<>();
         
+        this.setPosition(pos);
+        
         for (int i = 0; i < diggerNumber; ++i) {
             agents.add(new Digger(this.getPosition()));
-
         }
 
         for (int i = 0; i < detectorsNumber; ++i) {
