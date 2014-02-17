@@ -121,6 +121,19 @@ public class Environment extends Observable {
             new Thread(agent).start();
         }
     }
+    
+    public static boolean isNextTo(Positionable positionable, Position positionElement){
+        
+        Position pos = positionable.getPosition();
+        
+        for ( int i = pos.y-1 ; i <= pos.y +1 ; ++i ){
+            for (int j = pos.x-1; j <= pos.x+1; j++) {
+                if(positionElement.equals(new Position(j, i)))
+                    return true;
+            }
+        }
+        return false;
+    }
 
     public void displayMap() {
         System.out.println("");
