@@ -5,6 +5,7 @@
  */
 package model.agent;
 
+import javax.swing.ImageIcon;
 import model.utils.Position;
 
 /**
@@ -74,7 +75,7 @@ public class Transporter extends Agent {
     }
 
     @Override
-    public String getDisplayImage() {
-        return null;
+    public ImageIcon getDisplayImage() {
+        return new ImageIcon(getClass().getResource("/images/transporter.png"));
     }
 }

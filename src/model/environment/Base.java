@@ -6,6 +6,7 @@
 package model.environment;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
@@ -84,8 +85,8 @@ public class Base implements Positionable {
     }
 
     @Override
-    public String getDisplayImage() {
-        return null;
+    public ImageIcon getDisplayImage() {
+       return new ImageIcon(getClass().getResource("/images/base.png"));
     }
 
     public Position getDiscovered() {

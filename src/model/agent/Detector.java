@@ -9,6 +9,7 @@ package model.agent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import javax.swing.ImageIcon;
 import model.environment.Environment;
 import model.utils.Position;
 
@@ -100,7 +101,7 @@ public class Detector extends Agent{
     }
 
     @Override
-    public String getDisplayImage() {
-        return null;
+    public ImageIcon getDisplayImage() {
+        return new ImageIcon(getClass().getResource("/images/detector.png"));
     }
 }

@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +17,7 @@ import model.environment.Environment;
 import model.utils.Position;
 import model.utils.Positionable;
 
-public class IHM extends JFrame implements Observer{
+public class IHM extends JFrame implements Observer {
 
     private JLabel[][] cells;
 
@@ -33,10 +34,10 @@ public class IHM extends JFrame implements Observer{
         setLayout(new GridLayout(Environment.WIDTH, Environment.HEIGHT));
         for (int i = 0; i < Environment.WIDTH; ++i) {
             for (int j = 0; j < Environment.HEIGHT; j++) {
-            //    System.out.println("i " + i  + " j " + j );
+                //    System.out.println("i " + i  + " j " + j );
                 Positionable p = Environment.getInstance().get(new Position(i, j));
                 if (p != null) {
-                    cells[i][j] = new JLabel(p.getDisplayString());
+                    cells[i][j] = new JLabel(p.getDisplayImage());
                 } else {
                     cells[i][j] = new JLabel(" ");
                 }
@@ -48,8 +49,8 @@ public class IHM extends JFrame implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         ArrayList<Position> positions = (ArrayList<Position>) arg;
-        String label = cells[positions.get(0).x][positions.get(0).y].getText();
-        cells[positions.get(0).x][positions.get(0).y].setText(" ");
-        cells[positions.get(1).x][positions.get(1).y].setText(label);
+        ImageIcon label = (ImageIcon) (cells[positions.get(0).x][positions.get(0).y].getIcon());
+        cells[positions.get(0).x][positions.get(0).y].setIcon(null);
+        cells[positions.get(1).x][positions.get(1).y].setIcon(label);
     }
 }

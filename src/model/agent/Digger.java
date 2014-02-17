@@ -7,7 +7,7 @@
 package model.agent;
 
 import java.util.ArrayList;
-import model.environment.Environment;
+import javax.swing.ImageIcon;
 import model.utils.Position;
 
 /**
@@ -97,9 +97,9 @@ public class Digger extends Agent {
         return "Digger";
     }
 
-    @Override
-    public String getDisplayImage() {
-        return null;
+   @Override
+    public ImageIcon getDisplayImage() {
+        return new ImageIcon(getClass().getResource("/images/digger.png"));
     }
     
 }
