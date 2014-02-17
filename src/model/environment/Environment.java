@@ -102,7 +102,7 @@ public class Environment extends Observable {
             return false;
         }
 
-        if (get(newPosition) == null || newPosition.equals(getBase().getPosition())) {
+        if (get(newPosition) == null) {
             ArrayList<Position> sendPos = new ArrayList<>();
             sendPos.add(positionable.getPosition());
             empty(positionable.getPosition());
@@ -120,6 +120,19 @@ public class Environment extends Observable {
         for (Agent agent : base.getAgents()) {
             new Thread(agent).start();
         }
+    }
+    
+    public static boolean isNextTo(Positionable positionable, Position positionElement){
+        
+        Position pos = positionable.getPosition();
+        
+        for ( int i = pos.y-1 ; i <= pos.y +1 ; ++i ){
+            for (int j = pos.x-1; j <= pos.x+1; j++) {
+                if(positionElement.equals(new Position(j, i)))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void displayMap() {

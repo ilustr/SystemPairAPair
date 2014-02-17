@@ -62,8 +62,6 @@ public class IHM extends JFrame implements Observer {
         ArrayList<Position> positions = (ArrayList<Position>) arg;
         ImageIcon label = (ImageIcon) (cells[positions.get(0).x][positions.get(0).y].getIcon());
         cells[positions.get(0).x][positions.get(0).y].setIcon(null);
-        if(!positions.get(1).equals(Environment.getInstance().getBase().getPosition())){
-            cells[positions.get(1).x][positions.get(1).y].setIcon(label);
-        }
+        cells[positions.get(1).x][positions.get(1).y].setIcon(label);
     }
 }
