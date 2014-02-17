@@ -104,7 +104,7 @@ public class Environment extends Observable {
             return false;
         }
 
-        if (get(newPosition) == null) {
+        if (get(newPosition) == null || newPosition.equals(getBase().getPosition())) {
             ArrayList<Position> sendPos = new ArrayList<>();
             sendPos.add(positionable.getPosition());
             empty(positionable.getPosition());
