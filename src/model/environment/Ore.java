@@ -6,6 +6,8 @@
 package model.environment;
 
 import java.util.ArrayList;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
@@ -21,6 +23,7 @@ public class Ore implements Positionable {
     private Position position;
     private int quantity;
     private boolean diggable=true;
+    private int stack;
     
     public Ore(int quantity){
         this.quantity = quantity;
@@ -29,11 +32,21 @@ public class Ore implements Positionable {
     public boolean dig(){
         if(this.getQuantity()-1 > 0){
             this.setQuantity(this.getQuantity()-1);
+            this.setStack(this.getStack()+1);
             return true;
         }else{
             this.diggable = false;
             return false;
         }       
+    }
+    
+    public boolean getInStack(){
+        if(this.getStack()-1 > 0){
+            this.setStack(this.getStack()-1);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean isDiggable() {
@@ -48,6 +61,15 @@ public class Ore implements Positionable {
     public int getQuantity() {
         return quantity;
     }
+
+    public int getStack() {
+        return stack;
+    }
+
+    public void setStack(int stack) {
+        this.stack = stack;
+    }
+   
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
@@ -69,8 +91,12 @@ public class Ore implements Positionable {
     }
 
     @Override
-    public String getDisplayImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ImageIcon getDisplayImage() {
+        if(isDiggable())
+            return new ImageIcon(getClass().getResource("/images/ore.png"));
+        else{
+            return new ImageIcon(getClass().getResource("/images/ore_finish.png"));
+        }
     }
     
     

@@ -6,6 +6,8 @@
 
 package model.utils;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import model.utils.Position;
 
 /**
@@ -20,5 +22,5 @@ public interface Positionable {
     
     public String getDisplayString();
 
-    public String getDisplayImage();
+    public ImageIcon getDisplayImage();
 }

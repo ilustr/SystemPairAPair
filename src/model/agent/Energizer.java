@@ -6,6 +6,7 @@
 package model.agent;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import model.utils.Position;
 
 /**
@@ -82,7 +83,7 @@ public class Energizer extends Agent {
     }
 
     @Override
-    public String getDisplayImage() {
-        return null;
+    public ImageIcon getDisplayImage() {
+        return new ImageIcon(getClass().getResource("/images/energizer.png"));
     }
 }

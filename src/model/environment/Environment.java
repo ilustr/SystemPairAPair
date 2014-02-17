@@ -156,5 +156,10 @@ public class Environment extends Observable {
         this.base = base;
     }
 
-    
+    public boolean isThereOre(Position position){  
+        if (get(position) instanceof Ore) {
+            return true;
+        }
+        return false;
+    }   
 }
