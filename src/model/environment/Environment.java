@@ -23,8 +23,12 @@ public class Environment extends Observable {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    
+    public static final int MIN_QUANTITY_ORE = 12;
+    public static final int MAX_QUANTITY_ORE = 29;
 
     public static final int DETECTORS_NUMBER = 5;
+    public static final int ORE_NUMBER = 5;
     public static final int DIGGERS_NUMBER = 7;
     public static final int ENERGIZERS_NUMBER = 3;
     public static final int TRANSPORTERS_NUMBER = 7;
@@ -48,17 +52,24 @@ public class Environment extends Observable {
         return INSTANCE;
     }
 
-    public void add(Positionable positionable) {
+    public synchronized boolean dig(Positionable positionable) {
+        if (get(positionable.getPosition()) instanceof Ore) {
+            return ((Ore) positionable).dig();
+        }
+        return false;
+    }
+
+    public synchronized void add(Positionable positionable) {
         Position position = positionable.getPosition();
         map[position.x][position.y] = positionable;
 
     }
 
-    public Positionable get(Position position) {
+    public synchronized Positionable get(Position position) {
         return map[position.x][position.y];
     }
 
-    public void empty(Position position) {
+    public synchronized void empty(Position position) {
         map[position.x][position.y] = null;
     }
 
@@ -69,9 +80,16 @@ public class Environment extends Observable {
             positionable.setPosition(getrandomPosition());
             this.add(positionable);
         }
+
+        for (int i = 0; i < ORE_NUMBER; i++) {
+            int randomQuantity = (int) (Math.random() * (MAX_QUANTITY_ORE - MIN_QUANTITY_ORE)) + MIN_QUANTITY_ORE;
+            Ore ore = new Ore(randomQuantity);
+            ore.setPosition(getrandomPosition());
+            this.add(ore);
+        }
     }
 
-    private Position getrandomPosition() {
+    private synchronized Position getrandomPosition() {
         int x = 0;
         int y = 0;
         do {
@@ -81,7 +99,7 @@ public class Environment extends Observable {
         return new Position(x, y);
     }
 
-    public boolean moveTo(Positionable positionable, Position newPosition) {
+    public synchronized boolean moveTo(Positionable positionable, Position newPosition) {
         if (newPosition.x < 0 || newPosition.x >= WIDTH || newPosition.y < 0 || newPosition.y >= HEIGHT) {
             return false;
         }
@@ -130,4 +148,13 @@ public class Environment extends Observable {
         }
     }
 
+    public Base getBase() {
+        return base;
+    }
+
+    public void setBase(Base base) {
+        this.base = base;
+    }
+
+    
 }
