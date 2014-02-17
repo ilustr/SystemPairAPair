@@ -18,10 +18,13 @@ import model.utils.Position;
  * @author hugo
  */
 public class Detector extends Agent{
-    public static final int PA_MAX = 150;
+    public static final int PA_MAX = 50;
+    public static final int DETECTOR_VISIBILITY = 2;
     
     private ArrayList<Position> visitedYet;
     private ArrayList<Position> hasOre;
+    
+    private Position nextGoal;
     
     
     public Detector(Position posBase) {
@@ -37,7 +40,7 @@ public class Detector extends Agent{
 
     @Override
     public void onReceive(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Detector.Onreceive : Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -48,12 +51,26 @@ public class Detector extends Agent{
         doWalk();
         
         // IF (ore around)
-            // add to list
-            // mark it 
-            // return to base
+        isThereAnyOreOutThere();
 
-        // If gotobase && base is reach
-            // doReportToBase();
+        if(this.goToBase && this.pos.equals(posBase))
+        {
+            this.doReportToBase();
+        }
+    }
+    
+    public void isThereAnyOreOutThere() {
+        for (int i = -DETECTOR_VISIBILITY; i < DETECTOR_VISIBILITY; i++) {
+            for (int j = -DETECTOR_VISIBILITY; j < DETECTOR_VISIBILITY; j++) {
+                Position newPos = new Position(this.pos.x + i, this.pos.y + j);
+                if (!visitedYet.contains(newPos)) {
+                    if (Environment.getInstance().isThereOre(newPos)){
+                        this.hasOre.add(newPos);
+                    }
+                    this.visitedYet.add(newPos);
+                }
+            }
+        }
     }
 
     @Override
@@ -61,9 +78,13 @@ public class Detector extends Agent{
         if (goToBase) {
             moveTo(posBase);
         } else {
-            // walk randomly dependings on what cases have been visited yet
-            Random rand = new Random();
-            moveTo(new Position(rand.nextInt(Environment.WIDTH), rand.nextInt(Environment.HEIGHT)));
+            if (nextGoal == null || this.pos.equals(nextGoal)) {
+                // walk randomly dependings on what cases have been visited yet
+                nextGoal = Environment.getInstance().getRandomPosition();
+                System.out.println("goes there");
+            } 
+            System.out.println("next goal : "+ nextGoal.x + " - "+ nextGoal.y);
+            moveTo(nextGoal);            
         }
     }
 
@@ -74,7 +95,10 @@ public class Detector extends Agent{
 
     @Override
     public void doReportToBase() {
-        // Give site discovered
+        for (Position position : this.hasOre) {
+            Environment.getInstance().getBase().addDiscovered(position);
+        }
+        this.hasOre.clear();
         doReload();
     }
 

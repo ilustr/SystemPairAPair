@@ -8,11 +8,9 @@ package model.environment;
 import model.utils.Positionable;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
-import model.utils.Information;
 import model.utils.Position;
 
 /**
@@ -41,7 +39,7 @@ public class Environment extends Observable {
 
     private Environment() {
         map = new Positionable[WIDTH][HEIGHT];
-        base = new Base(DETECTORS_NUMBER, DIGGERS_NUMBER, ENERGIZERS_NUMBER, TRANSPORTERS_NUMBER);
+        base = new Base();
         this.init();
     }
 
@@ -74,22 +72,22 @@ public class Environment extends Observable {
     }
 
     private void init() {
-        base.setPosition(getrandomPosition());
+        this.base.init(ORE_NUMBER, ORE_NUMBER, DETECTORS_NUMBER, DETECTORS_NUMBER, getRandomPosition());
         this.add(base);
         for (Positionable positionable : base.getAgents()) {
-            positionable.setPosition(getrandomPosition());
+            positionable.setPosition(getRandomPosition());
             this.add(positionable);
         }
 
         for (int i = 0; i < ORE_NUMBER; i++) {
             int randomQuantity = (int) (Math.random() * (MAX_QUANTITY_ORE - MIN_QUANTITY_ORE)) + MIN_QUANTITY_ORE;
             Ore ore = new Ore(randomQuantity);
-            ore.setPosition(getrandomPosition());
+            ore.setPosition(getRandomPosition());
             this.add(ore);
         }
     }
 
-    private synchronized Position getrandomPosition() {
+    public synchronized Position getRandomPosition() {
         int x = 0;
         int y = 0;
         do {
@@ -157,6 +155,10 @@ public class Environment extends Observable {
     }
 
     public boolean isThereOre(Position position){  
+        if (position.x < 0 || position.x >= WIDTH || position.y < 0 || position.y >= HEIGHT) {
+            return false;
+        }
+        
         if (get(position) instanceof Ore) {
             return true;
         }

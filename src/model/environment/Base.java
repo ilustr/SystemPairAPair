@@ -21,17 +21,27 @@ public class Base implements Positionable {
 
     private Position position;
     private ArrayList<Agent> agents;
+    private ArrayList<Position> discovered;
+    private ArrayList<Position> extracted;
+    private ArrayList<Position> transported;
+    private ArrayList<Position> toEnergize;
+    private ArrayList<Position> siteRecorded;
+    
 
-    public Base(int detectorsNumber, int extractorsNumber, int energizersNumber, int transportorNumber) {
+    public Base() { }
+
+    public void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber, Position pos) {
         agents = new ArrayList<>();
-        init(detectorsNumber, extractorsNumber, energizersNumber, transportorNumber);
-    }
-
-    private void init(int detectorsNumber, int diggerNumber, int energizersNumber, int transportorNumber) {
-        //TODO initialize 
+        discovered = new ArrayList<>();
+        extracted = new ArrayList<>();
+        transported = new ArrayList<>();
+        toEnergize = new ArrayList<>();
+        siteRecorded = new ArrayList<>();
+        
+        this.setPosition(pos);
+        
         for (int i = 0; i < diggerNumber; ++i) {
             agents.add(new Digger(this.getPosition()));
-
         }
 
         for (int i = 0; i < detectorsNumber; ++i) {
@@ -74,5 +84,65 @@ public class Base implements Positionable {
     @Override
     public ImageIcon getDisplayImage() {
        return new ImageIcon(getClass().getResource("/images/base.png"));
+    }
+
+    public Position getDiscovered() {
+        if(discovered.size() > 0)
+        {
+            Position pos = discovered.get(0);
+            return pos;
+        }
+        else
+            return null;
+    }
+
+    public boolean addDiscovered(Position e) {
+        if (addRecord(e)) {
+            addToEnergize(e);
+            return discovered.add(e);
+        } else
+            return false;
+    }
+    
+    public Position getExtracted() {
+        if(extracted.size() > 0)
+        {
+            Position pos = extracted.get(0);
+            return pos;
+        }
+        else
+            return null;
+    }
+
+    public boolean addExtracted(Position e) {
+        return extracted.add(e);
+    }
+    public Position getToEnergize() {
+        if(toEnergize.size() > 0)
+        {
+            Position pos = toEnergize.get(0);
+            return pos;
+        }
+        else
+            return null;
+    }
+
+    public boolean addToEnergize(Position e) {
+        return toEnergize.add(e);
+    }
+    
+    public boolean addTransported(Position e) {
+        return transported.add(e);
+    }
+    
+    public boolean addRecord(Position e) {
+        if (isSiteKnown(e))
+            return siteRecorded.add(e);
+        else
+            return false;
+    }
+    
+    public boolean isSiteKnown(Position e) {
+        return siteRecorded.contains(e);
     }
 }
