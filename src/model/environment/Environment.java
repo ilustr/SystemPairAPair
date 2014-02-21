@@ -22,9 +22,9 @@ public class Environment extends Observable {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
-
-    public static final int MIN_QUANTITY_ORE = 5;
-    public static final int MAX_QUANTITY_ORE = 20;
+    
+    public static final int MIN_QUANTITY_ORE = 30;
+    public static final int MAX_QUANTITY_ORE = 200;
 
     public static final int DETECTORS_NUMBER = 5;
     public static final int ORE_NUMBER = 5;
