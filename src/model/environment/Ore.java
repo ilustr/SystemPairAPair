@@ -5,12 +5,7 @@
  */
 package model.environment;
 
-import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import model.agent.Agent;
-import model.agent.Detector;
-import model.agent.Digger;
 import model.utils.Positionable;
 import model.utils.Position;
 

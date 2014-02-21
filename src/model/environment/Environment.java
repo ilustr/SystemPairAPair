@@ -11,6 +11,7 @@ import java.util.Observable;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
+import model.agent.Transporter;
 import model.utils.Information;
 import model.utils.Position;
 
@@ -30,7 +31,7 @@ public class Environment extends Observable {
     public static final int ORE_NUMBER = 5;
     public static final int DIGGERS_NUMBER = 2;
     public static final int ENERGIZERS_NUMBER = 3;
-    public static final int TRANSPORTERS_NUMBER = 7;
+    public static final int TRANSPORTERS_NUMBER = 3;
 
     private Positionable[][] map;
 
@@ -56,6 +57,26 @@ public class Environment extends Observable {
             return ((Ore) get(pos)).dig();
         }
         return false;
+    }
+    
+    public synchronized int loadRsc(Position pos) {
+        if (get(pos) instanceof Ore) {
+            int i = 0;
+            int quantity = 0;
+            while  ( ((Ore) get(pos)).getInStack() && i < Transporter.LOAD_QUANTITY )
+            {
+                quantity++;
+            }
+            return quantity;
+        }
+        return -1;
+    }
+    
+    public synchronized boolean noMoreMisterNiceOre(Position pos){
+        if (get(pos) instanceof Ore) {
+            return ((Ore) get(pos)).getStack() <= 0;
+        }
+        return true;
     }
 
     public synchronized void add(Positionable positionable) {
