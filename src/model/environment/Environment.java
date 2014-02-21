@@ -103,7 +103,7 @@ public class Environment extends Observable {
     }
 
     private boolean isInsideTheMap(Position pos) {
-        return pos.x > 0 || pos.x < WIDTH || pos.y > 0 || pos.y < HEIGHT;
+        return pos.x >= 0 && pos.x < WIDTH && pos.y >= 0 && pos.y < HEIGHT;
     }
 
     public synchronized Position getRandomPosition() {

@@ -137,7 +137,9 @@ public class Digger extends Agent {
     public int reload() {
         int diff = PA_MAX - this.actionPoints;
         this.doReload();
-        this.goToBase = false;
+        if(!this.hasFinished){
+            this.goToBase = false;
+        }
         return diff;
     }
     

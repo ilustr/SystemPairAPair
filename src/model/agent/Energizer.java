@@ -42,30 +42,28 @@ public class Energizer extends Agent {
 
     @Override
     public void doWork() {
-        
+
         super.doEnergyCheck();
         // WALK 
         doWalk();
-        
+
         if (sitesToVisit.size() > 0) {
-            
+            doLeaveBase();
             //don't give too muck fuel or you gonna have a bad time
-            if(this.actionPoints > getDistBase() * 2)
-            {
+            if (this.actionPoints > getDistBase() * 2) {
                 ArrayList<Agent> agents = Environment.getInstance().getAgentsInRange(this.pos, BROADCAST_RANGE);
-                
                 for (Agent agent : agents) {
-                    if(agent instanceof Digger)
-                    {
+                    if (agent instanceof Digger) {
+                        this.active = true;
+                        Environment.getInstance().refreshAgent(this);
                         this.actionPoints -= agent.reload();
                     }
                 }
             }
         }
-        
-        if (Environment.isNextTo(this, posBase))
-        {
-                this.doReportToBase();
+
+        if (Environment.isNextTo(this, posBase)) {
+            this.doReportToBase();
         }
 
     }
@@ -74,10 +72,12 @@ public class Energizer extends Agent {
         // Ask the base for a site to transport
         for (int i = 0; i < NB_MAX_SITES; i++) {
             Position site = Environment.getInstance().getBase().getToEnergize();
-            if(site != null)
+            if (site != null) {
                 this.sitesToVisit.add(site);
+            }
         }
     }
+
     private void reLoadSitesInBase() {
         // Ask the base for a site to transport
         for (Position position : sitesToVisit) {
@@ -91,11 +91,9 @@ public class Energizer extends Agent {
         if (goToBase) {
             this.moveTo(posBase);// return to base
         } else {
-            if(this.sitesToVisit.size() > 0)
-            {
+            if (this.sitesToVisit.size() > 0) {
                 this.moveTo(this.sitesToVisit.get(0));
-                if (Environment.isNextTo(this, this.sitesToVisit.get(0)))
-                {
+                if (Environment.isNextTo(this, this.sitesToVisit.get(0))) {
                     this.goToBase = true;
                 }
             }
@@ -109,6 +107,9 @@ public class Energizer extends Agent {
 
     @Override
     public void doReportToBase() {
+        if (sitesToVisit.size() == 0) {
+            Environment.getInstance().goOnBase(this);
+        }
         doReload();
         reLoadSitesInBase();
         loadSitesFromBase();
@@ -122,12 +123,12 @@ public class Energizer extends Agent {
 
     @Override
     public ImageIcon getDisplayImage() {
-         if(isActive()){
+        if (isActive()) {
             this.active = false;
             return new ImageIcon(getClass().getResource("/images/energizerActive.png"));
-         }else{
-            return new ImageIcon(getClass().getResource("/images/energizer.png")); 
-         }
+        } else {
+            return new ImageIcon(getClass().getResource("/images/energizer.png"));
+        }
     }
 
     @Override
