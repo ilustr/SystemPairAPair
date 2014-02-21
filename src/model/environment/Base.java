@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
+import model.agent.Energizer;
 import model.utils.Positionable;
 import model.utils.Position;
 
@@ -51,7 +52,7 @@ public class Base implements Positionable {
         }
 
         for (int i = 0; i < Environment.ENERGIZERS_NUMBER; ++i) {
-            // agents.add(new Energizer(this.getPosition()));
+            agents.add(new Energizer(this.getPosition()));
         }
 
         for (int i = 0; i < Environment.TRANSPORTERS_NUMBER; ++i) {
@@ -125,6 +126,7 @@ public class Base implements Positionable {
         if(toEnergize.size() > 0)
         {
             Position pos = toEnergize.get(0);
+            toEnergize.remove(0);
             return pos;
         }
         else
