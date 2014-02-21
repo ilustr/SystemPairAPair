@@ -26,7 +26,7 @@ public class Base implements Positionable {
     private ArrayList<Position> transported;
     private ArrayList<Position> toEnergize;
     private ArrayList<Position> siteRecorded;
-    
+    private ArrayList<Agent> agentsInside;
 
     public Base() { }
 
@@ -37,11 +37,13 @@ public class Base implements Positionable {
         transported = new ArrayList<>();
         toEnergize = new ArrayList<>();
         siteRecorded = new ArrayList<>();
+        agentsInside = new ArrayList<>();
         
         this.setPosition(pos);
-        
+
         for (int i = 0; i < Environment.DIGGERS_NUMBER; ++i) {
-            agents.add(new Digger(this.getPosition()));
+            Digger digger = new Digger(this.getPosition());
+            agents.add(digger);
         }
 
         for (int i = 0; i < Environment.DETECTORS_NUMBER; ++i) {
@@ -147,4 +149,14 @@ public class Base implements Positionable {
     public boolean isSiteKnown(Position e) {
         return siteRecorded.contains(e);
     }
+
+    public ArrayList<Agent> getAgentsInside() {
+        return agentsInside;
+    }
+
+    public void setAgentsInside(ArrayList<Agent> agentsInside) {
+        this.agentsInside = agentsInside;
+    }
+    
+    
 }

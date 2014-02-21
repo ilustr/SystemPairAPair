@@ -32,7 +32,7 @@ public abstract class Agent implements Runnable, Positionable {
         this.posBase = posBase;
         this.pos = posBase;
         goToBase = true;
-        this.active=  false;
+        this.active = false;
     }
 
     @Override
@@ -52,9 +52,18 @@ public abstract class Agent implements Runnable, Positionable {
     public abstract void doWalk();
 
     public abstract void doReload();
-    
+
     public abstract void doReportToBase();
-    
+
+    protected synchronized void doLeaveBase() {
+        Position newPos = null;
+        do {
+            newPos = Environment.getInstance().getEmptyPositionAroundBase();
+        } while (this.getPosition() == null);
+        this.setPosition(newPos);
+        Environment.getInstance().getBase().getAgentsInside().remove(this);
+    }
+
     public void broadcast(String msg) {
 
     }
@@ -76,14 +85,13 @@ public abstract class Agent implements Runnable, Positionable {
             }
         }
     }
-    
+
     public void doEnergyCheck() {
-        
-        int distBase = Math.abs(this.posBase.x-this.pos.x) + Math.abs(this.posBase.y-this.pos.y);
-        
+
+        int distBase = Math.abs(this.posBase.x - this.pos.x) + Math.abs(this.posBase.y - this.pos.y);
+
         // Check if energie is sufficient to return to base
-        if(this.actionPoints < distBase * 1.5)
-        {
+        if (this.actionPoints < distBase * 1.5) {
             // if not, gotobase = true;
             this.goToBase = true;
         }
@@ -96,84 +104,84 @@ public abstract class Agent implements Runnable, Positionable {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    private boolean moveAlgorithm(Position posTarget)
-    {
-        int x=0, y=0;
-        
-        // Select x
-        if (posTarget.x > pos.x)
-            x = 1;
-        else if (posTarget.x < pos.x)
-            x = - 1;
-        
-        // Select y
-        if (posTarget.y > pos.y)
-            y = 1;
-        else if (posTarget.y < pos.y)
-            y = - 1; 
 
-        Position newPos = new Position(pos.x +x, pos.y + y); 
+    private boolean moveAlgorithm(Position posTarget) {
+        int x = 0, y = 0;
+
+        // Select x
+        if (posTarget.x > pos.x) {
+            x = 1;
+        } else if (posTarget.x < pos.x) {
+            x = - 1;
+        }
+
+        // Select y
+        if (posTarget.y > pos.y) {
+            y = 1;
+        } else if (posTarget.y < pos.y) {
+            y = - 1;
+        }
+
+        Position newPos = new Position(pos.x + x, pos.y + y);
         if (Environment.getInstance().moveTo(this, newPos)) {
             this.pos = newPos;
             return true;
         } else {
-            if (x == 0)
-            {
+            if (x == 0) {
                 for (int i = -1; i <= 1; i++) {
-                    newPos = new Position(pos.x +i, pos.y + y); 
+                    newPos = new Position(pos.x + i, pos.y + y);
                     if (Environment.getInstance().moveTo(this, newPos)) {
                         this.pos = newPos;
                         return true;
                     }
                 }
-            }   
-            else if (y == 0)
-            {
+            } else if (y == 0) {
                 for (int i = -1; i <= 1; i++) {
-                    newPos = new Position(pos.x +x, pos.y +i); 
+                    newPos = new Position(pos.x + x, pos.y + i);
                     if (Environment.getInstance().moveTo(this, newPos)) {
                         this.pos = newPos;
                         return true;
                     }
                 }
-            }
-            else 
-            {
-                newPos = new Position(pos.x, pos.y +y); 
+            } else {
+                newPos = new Position(pos.x, pos.y + y);
                 if (Environment.getInstance().moveTo(this, newPos)) {
                     this.pos = newPos;
                     return true;
                 } else {
-                    newPos = new Position(pos.x + x, pos.y ); 
-                    if (Environment.getInstance().moveTo(this, newPos)) {
-                        this.pos = newPos;
-                        return true;
-                    } 
-                }
-            }
-            
-            for (int i = -1; i <= 1; i++) {
-                for (int j = -1; j <= 1; j++) {
-                    newPos = new Position(pos.x + i, pos.y +j ); 
+                    newPos = new Position(pos.x + x, pos.y);
                     if (Environment.getInstance().moveTo(this, newPos)) {
                         this.pos = newPos;
                         return true;
                     }
                 }
             }
-            
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    newPos = new Position(pos.x + i, pos.y + j);
+                    if (Environment.getInstance().moveTo(this, newPos)) {
+                        this.pos = newPos;
+                        return true;
+                    }
+                }
+            }
+
             return false;
         }
     }
-    
-    public boolean moveTo(Position posTarget){
-        if (actionPoints <= 0)
+
+    public boolean moveTo(Position posTarget) {
+        if (actionPoints <= 0) {
             return false;
-        if (moveAlgorithm(posTarget))
-        {
+        }
+        if (moveAlgorithm(posTarget)) {
             return true;
         }
         return false;
+    }
+
+    public boolean isOnBase() {
+        return Environment.getInstance().getBase().getAgentsInside().contains(this);
     }
 }

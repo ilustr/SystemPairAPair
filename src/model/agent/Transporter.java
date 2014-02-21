@@ -78,9 +78,9 @@ public class Transporter extends Agent {
     public ImageIcon getDisplayImage() {
         if (isActive()) {
             this.active = false;
-            return new ImageIcon(getClass().getResource("/images/transporter.png"));
-        } else {
             return new ImageIcon(getClass().getResource("/images/transporterActive.png"));
+        } else {
+            return new ImageIcon(getClass().getResource("/images/transporter.png"));
         }
     }
 }

@@ -55,7 +55,7 @@ public class Digger extends Agent {
                 }
             }
         }
-        if (Environment.isNextTo(this, posBase)) 
+        if ( Environment.isNextTo(this, posBase)) 
         {
             this.doReportToBase();
         }
@@ -66,7 +66,7 @@ public class Digger extends Agent {
     @Override
     public void doWalk() {
         
-        if (goToBase && !Environment.isNextTo(this, posBase)) {
+        if (goToBase && !Environment.isNextTo(this, posBase) && !this.isOnBase()) {
             this.moveTo(posBase);
         } else if (siteToDig != null) {
             
@@ -103,9 +103,12 @@ public class Digger extends Agent {
         
         if(siteToDig == null)
         {
+            Environment.getInstance().goOnBase(this);
+
             this.siteToDig = Environment.getInstance().getBase().getDiscovered();
             //System.out.println("site to dig "+ siteToDig);
             if (siteToDig != null) {
+                doLeaveBase();
                 goToBase = false;
                 hasFinished = false;
             }

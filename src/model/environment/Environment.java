@@ -22,13 +22,13 @@ public class Environment extends Observable {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
-    
+
     public static final int MIN_QUANTITY_ORE = 20;
     public static final int MAX_QUANTITY_ORE = 70;
 
     public static final int DETECTORS_NUMBER = 2;
     public static final int ORE_NUMBER = 10;
-    public static final int DIGGERS_NUMBER = 2;
+    public static final int DIGGERS_NUMBER = 12;
     public static final int ENERGIZERS_NUMBER = 3;
     public static final int TRANSPORTERS_NUMBER = 7;
 
@@ -68,16 +68,20 @@ public class Environment extends Observable {
         return map[position.x][position.y];
     }
 
+    public synchronized Positionable get(int x, int y) {
+        return map[x][y];
+    }
+
     public synchronized void empty(Position position) {
         map[position.x][position.y] = null;
     }
 
     private void init() {
         Position posBase;
-        do{
+        do {
             posBase = getRandomPosition();
-        }while ( posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1 );
-        
+        } while (posBase.x == 0 || posBase.x == WIDTH - 1 || posBase.y == 0 || posBase.y == HEIGHT - 1);
+
         this.base.init(posBase);
         this.add(base);
         for (Positionable positionable : base.getAgents()) {
@@ -88,9 +92,9 @@ public class Environment extends Observable {
         for (int i = 0; i < ORE_NUMBER; i++) {
             int randomQuantity = (int) (Math.random() * (MAX_QUANTITY_ORE - MIN_QUANTITY_ORE)) + MIN_QUANTITY_ORE;
             Ore ore = new Ore(randomQuantity);
-            do{
+            do {
                 ore.setPosition(getRandomPosition());
-            }while(isNextTo(ore, posBase));
+            } while (isNextTo(ore, posBase));
             this.add(ore);
         }
     }
@@ -103,6 +107,19 @@ public class Environment extends Observable {
             y = (int) (Math.random() * (HEIGHT));
         } while (map[x][y] != null);
         return new Position(x, y);
+    }
+
+    public synchronized Position getEmptyPositionAroundBase() {
+
+        Position pos = getInstance().getBase().getPosition();
+        for (int i = pos.y - 1; i <= pos.y + 1; ++i) {
+            for (int j = pos.x - 1; j <= pos.x + 1; j++) {
+                if (i != 0 && j != 0 && getInstance().get(j, i) == null) {
+                    return new Position(j, i);
+                }
+            }
+        }
+        return null;
     }
 
     public synchronized boolean moveTo(Positionable positionable, Position newPosition) {
@@ -145,6 +162,14 @@ public class Environment extends Observable {
             }
         }
         return false;
+    }
+
+    public void goOnBase(Agent agent) {
+        if (!agent.isOnBase()) {
+            getInstance().base.getAgentsInside().add(agent);
+            getInstance().empty(agent.getPosition());
+            getInstance().refreshAgent(agent);
+        }
     }
 
     public void displayMap() {
