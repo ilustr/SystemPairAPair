@@ -28,6 +28,7 @@ public class Base implements Positionable {
     private ArrayList<Position> transported;
     private ArrayList<Position> toEnergize;
     private ArrayList<Position> siteRecorded;
+    private ArrayList<Agent> agentsInside;
     private int ore;
     
 
@@ -40,6 +41,7 @@ public class Base implements Positionable {
         transported = new ArrayList<>();
         toEnergize = new ArrayList<>();
         siteRecorded = new ArrayList<>();
+        agentsInside = new ArrayList<>();
         ore = 0;
         
         this.setPosition(pos);
@@ -168,4 +170,10 @@ public class Base implements Positionable {
     public void setOre(int ore) {
         this.ore = ore;
     }
+
+    public ArrayList<Agent> getAgentsInside() {
+        return agentsInside;
+    }
+    
+    
 }

@@ -61,7 +61,8 @@ public class Transporter extends Agent {
 
     public void workOnSite() {
         System.out.println("Work on site");
-       
+       this.active = true;
+       Environment.getInstance().refreshAgent(this);
         if (Environment.getInstance().noMoreMisterNiceOre(siteToTransport)) {
             goToBase = true;
             isOnSite = false;
@@ -80,10 +81,11 @@ public class Transporter extends Agent {
 
     public void waitForASite() {
         doReload();
-
+        Environment.getInstance().goOnBase(this);
         this.siteToTransport = Environment.getInstance().getBase().getExtracted();
 
         if (siteToTransport != null) {
+            doLeaveBase();
             System.out.println("site to transport " + siteToTransport);
             goToBase = false;
         }
