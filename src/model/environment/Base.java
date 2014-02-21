@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
+import model.agent.Energizer;
 import model.agent.Transporter;
 import model.utils.Positionable;
 import model.utils.Position;
@@ -124,6 +125,7 @@ public class Base implements Positionable {
     public synchronized boolean addExtracted(Position e) {
         return extracted.add(e);
     }
+    
     public synchronized Position getToEnergize() {
         if(toEnergize.size() > 0)
         {
