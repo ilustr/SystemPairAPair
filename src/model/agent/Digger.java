@@ -49,6 +49,9 @@ public class Digger extends Agent {
                     this.isOnSite = false;
                     this.goToBase = true;
                     this.hasFinished = true;
+                }else{
+                     this.active = true;
+                     Environment.getInstance().refreshAgent(this);
                 }
             }
             else if (this.goToBase && Environment.isNextTo(this, posBase))

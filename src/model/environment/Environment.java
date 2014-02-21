@@ -22,7 +22,7 @@ public class Environment extends Observable {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
-    
+
     public static final int MIN_QUANTITY_ORE = 5;
     public static final int MAX_QUANTITY_ORE = 20;
 
@@ -125,15 +125,16 @@ public class Environment extends Observable {
             new Thread(agent).start();
         }
     }
-    
-    public static boolean isNextTo(Positionable positionable, Position positionElement){
-        
+
+    public static boolean isNextTo(Positionable positionable, Position positionElement) {
+
         Position pos = positionable.getPosition();
-        
-        for ( int i = pos.y-1 ; i <= pos.y +1 ; ++i ){
-            for (int j = pos.x-1; j <= pos.x+1; j++) {
-                if(positionElement.equals(new Position(j, i)))
+
+        for (int i = pos.y - 1; i <= pos.y + 1; ++i) {
+            for (int j = pos.x - 1; j <= pos.x + 1; j++) {
+                if (positionElement.equals(new Position(j, i))) {
                     return true;
+                }
             }
         }
         return false;
@@ -171,14 +172,25 @@ public class Environment extends Observable {
         this.base = base;
     }
 
-    public boolean isThereOre(Position position){  
+    public boolean isThereOre(Position position) {
         if (position.x < 0 || position.x >= WIDTH || position.y < 0 || position.y >= HEIGHT) {
             return false;
         }
-        
+
         if (get(position) instanceof Ore) {
             return true;
         }
         return false;
-    }   
+    }
+
+    public void refreshAgent(Positionable positionable) {
+        Information infos = new Information();
+        ArrayList<Position> sendPos = new ArrayList<>();
+        sendPos.add(positionable.getPosition());
+        sendPos.add(positionable.getPosition());
+        infos.setPos(sendPos);
+        infos.setSource(positionable);
+        setChanged();
+        notifyObservers(infos);
+    }
 }

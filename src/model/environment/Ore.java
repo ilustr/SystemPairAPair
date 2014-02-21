@@ -35,6 +35,7 @@ public class Ore implements Positionable {
             this.setStack(this.getStack()+1);
             return true;
         }else{
+            Environment.getInstance().refreshAgent(this);
             this.diggable = false;
             return false;
         }       
