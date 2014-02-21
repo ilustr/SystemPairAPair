@@ -83,7 +83,7 @@ public class Base implements Positionable {
 
     @Override
     public ImageIcon getDisplayImage() {
-       return new ImageIcon(getClass().getResource("/images/base.png"));
+       return new ImageIcon(getClass().getResource("/images/base5.png"));
     }
 
     public synchronized Position getDiscovered() {

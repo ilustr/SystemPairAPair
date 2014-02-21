@@ -73,7 +73,12 @@ public class Environment extends Observable {
     }
 
     private void init() {
-        this.base.init(getRandomPosition());
+        Position posBase;
+        do{
+            posBase = getRandomPosition();
+        }while ( posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1 );
+        
+        this.base.init(posBase);
         this.add(base);
         for (Positionable positionable : base.getAgents()) {
             positionable.setPosition(getRandomPosition());
@@ -83,7 +88,9 @@ public class Environment extends Observable {
         for (int i = 0; i < ORE_NUMBER; i++) {
             int randomQuantity = (int) (Math.random() * (MAX_QUANTITY_ORE - MIN_QUANTITY_ORE)) + MIN_QUANTITY_ORE;
             Ore ore = new Ore(randomQuantity);
-            ore.setPosition(getRandomPosition());
+            do{
+                ore.setPosition(getRandomPosition());
+            }while(isNextTo(ore, posBase));
             this.add(ore);
         }
     }
