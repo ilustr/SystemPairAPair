@@ -84,6 +84,11 @@ public class Energizer extends Agent {
 
     @Override
     public ImageIcon getDisplayImage() {
-        return new ImageIcon(getClass().getResource("/images/energizer.png"));
+         if(isActive()){
+            this.active = false;
+            return new ImageIcon(getClass().getResource("/images/energizer.png"));
+         }else{
+            return new ImageIcon(getClass().getResource("/images/energizerActive.png")); 
+         }
     }
 }
