@@ -51,19 +51,10 @@ public class Digger extends Agent {
                     this.hasFinished = true;
                 }
             }
-            else if (this.goToBase && Environment.isNextTo(this, posBase))
-            {
-                this.doReportToBase();
-            }
         }
-        else if (Environment.isNextTo(this, posBase)) 
+        if (Environment.isNextTo(this, posBase)) 
         {
-            System.out.println("lol");
-            this.siteToDig = Environment.getInstance().getBase().getDiscovered();
-            System.out.println("site to dig "+ siteToDig);
-            if (siteToDig != null) {
-                goToBase = false;
-            }
+            this.doReportToBase();
         }
         
         doWalk();
@@ -71,15 +62,19 @@ public class Digger extends Agent {
 
     @Override
     public void doWalk() {
+        
         if (goToBase && !Environment.isNextTo(this, posBase)) {
             this.moveTo(posBase);
-        } else if (!isOnSite && siteToDig != null) {
-            this.moveTo(siteToDig);
+        } else if (siteToDig != null) {
+            
+            if(!isOnSite)
+                this.moveTo(siteToDig);
             
             if( Environment.isNextTo(this, siteToDig))
-                this.isOnSite = true;  
+                this.isOnSite = true; 
+            else
+                this.isOnSite = false;
         }
-              
     }
 
     @Override
@@ -89,11 +84,30 @@ public class Digger extends Agent {
 
     @Override
     public void doReportToBase() {
-        if (hasFinished) {
-            Environment.getInstance().getBase().addExtracted(siteToDig);
-            siteToDig = null;
-            hasFinished = false;
+        
+        if(siteToDig != null)
+        {
+            if(hasFinished)
+            {
+                Environment.getInstance().getBase().addExtracted(siteToDig);
+                siteToDig = null;
+            }
+            else
+            {
+                goToBase = false;
+            }
         }
+        
+        if(siteToDig == null)
+        {
+            this.siteToDig = Environment.getInstance().getBase().getDiscovered();
+            //System.out.println("site to dig "+ siteToDig);
+            if (siteToDig != null) {
+                goToBase = false;
+                hasFinished = false;
+            }
+        }
+        
         doReload();
     }
     
