@@ -7,7 +7,9 @@ package model.agent;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import model.environment.Environment;
 import model.utils.Position;
+import model.utils.Positionable;
 
 /**
  *
@@ -16,6 +18,8 @@ import model.utils.Position;
 public class Energizer extends Agent {
 
     public static final int PA_MAX = 500;
+    private static int NB_MAX_SITES = 1;
+    private static int BROADCAST_RANGE = 1;
 
     private ArrayList<Position> sitesToVisit;
     private int currentTarget;
@@ -38,30 +42,63 @@ public class Energizer extends Agent {
 
     @Override
     public void doWork() {
-        if (sitesToVisit.size() != 0) {
-            super.doEnergyCheck();
-
-            // WALK 
-            doWalk();
-
-            // broadcast ( "need-energy?" )
-        } else {
-            // Ask the base for a site to transport
+        
+        super.doEnergyCheck();
+        // WALK 
+        doWalk();
+        
+        if (sitesToVisit.size() > 0) {
+            
+            //don't give too muck fuel or you gonna have a bad time
+            if(this.actionPoints > getDistBase() * 2)
+            {
+                ArrayList<Agent> agents = Environment.getInstance().getAgentsInRange(this.pos, BROADCAST_RANGE);
+                
+                for (Agent agent : agents) {
+                    if(agent instanceof Digger)
+                    {
+                        this.actionPoints -= agent.reload();
+                    }
+                }
+            }
+        }
+        
+        if (Environment.isNextTo(this, posBase))
+        {
+                this.doReportToBase();
         }
 
+    }
+
+    private void loadSitesFromBase() {
+        // Ask the base for a site to transport
+        for (int i = 0; i < NB_MAX_SITES; i++) {
+            Position site = Environment.getInstance().getBase().getToEnergize();
+            if(site != null)
+                this.sitesToVisit.add(site);
+        }
+    }
+    private void reLoadSitesInBase() {
+        // Ask the base for a site to transport
+        for (Position position : sitesToVisit) {
+            Environment.getInstance().getBase().addToEnergize(position);
+        }
+        this.sitesToVisit.clear();
     }
 
     @Override
     public void doWalk() {
         if (goToBase) {
-            // return to base
+            this.moveTo(posBase);// return to base
         } else {
-            // go to site to visit currentTarget
-
-            // if reach site(currentTarget)
-            // currentTarget++
-            // if currentTarget > sitetovisite.size()
-            // gotobase = true;
+            if(this.sitesToVisit.size() > 0)
+            {
+                this.moveTo(this.sitesToVisit.get(0));
+                if (Environment.isNextTo(this, this.sitesToVisit.get(0)))
+                {
+                    this.goToBase = true;
+                }
+            }
         }
     }
 
@@ -72,9 +109,10 @@ public class Energizer extends Agent {
 
     @Override
     public void doReportToBase() {
-        // drop ressources
-        // gotobase false
-        // sitetotransport false
+        doReload();
+        reLoadSitesInBase();
+        loadSitesFromBase();
+        this.goToBase = false;
     }
 
     @Override
@@ -85,5 +123,10 @@ public class Energizer extends Agent {
     @Override
     public ImageIcon getDisplayImage() {
         return new ImageIcon(getClass().getResource("/images/energizer.png"));
+    }
+
+    @Override
+    public int reload() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

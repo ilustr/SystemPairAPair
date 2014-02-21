@@ -45,6 +45,7 @@ public class Digger extends Agent {
                 // Dig until everythings has been cleared up
                 if(!Environment.getInstance().dig(siteToDig))
                 {
+                    //System.out.println("FINI DE CREUSER");
                 // once it's finished, mark site has finished
                     this.isOnSite = false;
                     this.goToBase = true;
@@ -127,6 +128,14 @@ public class Digger extends Agent {
         }
         else
             return new ImageIcon(getClass().getResource("/images/digger.png"));
+    }
+
+    @Override
+    public int reload() {
+        int diff = PA_MAX - this.actionPoints;
+        this.doReload();
+        this.goToBase = false;
+        return diff;
     }
     
 }

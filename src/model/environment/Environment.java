@@ -29,7 +29,7 @@ public class Environment extends Observable {
     public static final int DETECTORS_NUMBER = 5;
     public static final int ORE_NUMBER = 5;
     public static final int DIGGERS_NUMBER = 2;
-    public static final int ENERGIZERS_NUMBER = 3;
+    public static final int ENERGIZERS_NUMBER = 2;
     public static final int TRANSPORTERS_NUMBER = 7;
 
     private Positionable[][] map;
@@ -65,7 +65,10 @@ public class Environment extends Observable {
     }
 
     public synchronized Positionable get(Position position) {
-        return map[position.x][position.y];
+        if( isInsideTheMap(position) )
+            return map[position.x][position.y];
+        else
+            return null;
     }
 
     public synchronized void empty(Position position) {
@@ -76,7 +79,7 @@ public class Environment extends Observable {
         Position posBase;
         do{
             posBase = getRandomPosition();
-        }while ( posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1 );
+        }while (posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1);
         
         this.base.init(posBase);
         this.add(base);
@@ -93,6 +96,10 @@ public class Environment extends Observable {
             }while(isNextTo(ore, posBase));
             this.add(ore);
         }
+    }
+
+    private boolean isInsideTheMap(Position pos) {
+        return pos.x > 0 || pos.x < WIDTH || pos.y > 0 || pos.y < HEIGHT;
     }
 
     public synchronized Position getRandomPosition() {
@@ -199,5 +206,23 @@ public class Environment extends Observable {
         infos.setSource(positionable);
         setChanged();
         notifyObservers(infos);
+    }
+    
+    public ArrayList<Agent> getAgentsInRange(Position pos, int range) {
+        ArrayList<Agent> agents = new ArrayList<>();
+        
+        for (int i = -range; i <= range; i++) {
+            for (int j = -range; j <= range; j++) {
+                Positionable positionable = Environment.getInstance().get(new Position(pos.x+i, pos.y+j));
+                if(positionable != null)
+                {
+                    if(positionable instanceof Agent)
+                    {
+                        agents.add((Agent) positionable);
+                    }
+                }
+            }
+        }
+        return agents;
     }
 }

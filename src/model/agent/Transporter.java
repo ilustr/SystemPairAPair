@@ -78,4 +78,9 @@ public class Transporter extends Agent {
     public ImageIcon getDisplayImage() {
         return new ImageIcon(getClass().getResource("/images/transporter.png"));
     }
+
+    @Override
+    public int reload() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

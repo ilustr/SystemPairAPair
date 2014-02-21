@@ -93,10 +93,10 @@ public class Detector extends Agent{
 
     @Override
     public void doReportToBase() {
-        System.out.println("report1");
+        //System.out.println("report1");
         this.active = true;
         for (Position position : this.hasOre) {
-            System.out.println("report");
+            //System.out.println("report");
             Environment.getInstance().getBase().addDiscovered(position);
         }
         this.hasOre.clear();
@@ -120,5 +120,10 @@ public class Detector extends Agent{
         }
         else
             return new ImageIcon(getClass().getResource("/images/detector.png"));
+    }
+
+    @Override
+    public int reload() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
