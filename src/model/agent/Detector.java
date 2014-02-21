@@ -18,7 +18,7 @@ import model.utils.Position;
  * @author hugo
  */
 public class Detector extends Agent{
-    public static final int PA_MAX = 30;
+    public static final int PA_MAX = 50;
     public static final int DETECTOR_VISIBILITY = 2;
     
     private ArrayList<Position> visitedYet;
@@ -75,7 +75,7 @@ public class Detector extends Agent{
 
     @Override
     public void doWalk() {
-        if (goToBase && Environment.isNextTo(this, posBase)) {
+        if (goToBase) {
             moveTo(posBase);
         } else {
             if (nextGoal == null || Environment.isNextTo(this, nextGoal)) {

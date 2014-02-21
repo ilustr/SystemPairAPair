@@ -158,7 +158,7 @@ public abstract class Agent implements Runnable, Positionable {
     }
     
     public boolean moveTo(Position posTarget){
-        if (actionPoints == 0)
+        if (actionPoints <= 0)
             return false;
         if (moveAlgorithm(posTarget))
         {
