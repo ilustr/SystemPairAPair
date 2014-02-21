@@ -90,6 +90,7 @@ public class Base implements Positionable {
         if(discovered.size() > 0)
         {
             Position pos = discovered.get(0);
+            discovered.remove(0);
             return pos;
         }
         else
