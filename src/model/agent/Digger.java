@@ -104,7 +104,12 @@ public class Digger extends Agent {
 
    @Override
     public ImageIcon getDisplayImage() {
-        return new ImageIcon(getClass().getResource("/images/digger.png"));
+        if(isActive()){
+            this.active = false;
+            return new ImageIcon(getClass().getResource("/images/diggerActive.png"));
+        }
+        else
+            return new ImageIcon(getClass().getResource("/images/digger.png"));
     }
     
 }

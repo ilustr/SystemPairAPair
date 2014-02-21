@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import model.environment.Environment;
+import model.utils.Information;
 import model.utils.Position;
 import model.utils.Positionable;
 
@@ -59,9 +60,8 @@ public class IHM extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ArrayList<Position> positions = (ArrayList<Position>) arg;
-        ImageIcon label = (ImageIcon) (cells[positions.get(0).x][positions.get(0).y].getIcon());
-        cells[positions.get(0).x][positions.get(0).y].setIcon(null);
-        cells[positions.get(1).x][positions.get(1).y].setIcon(label);
+        Information infos = (Information) arg;
+        cells[infos.getPos().get(0).x][infos.getPos().get(0).y].setIcon(null);
+        cells[infos.getPos().get(1).x][infos.getPos().get(1).y].setIcon(infos.getSource().getDisplayImage());
     }
 }
