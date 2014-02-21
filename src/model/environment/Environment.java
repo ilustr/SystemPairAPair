@@ -28,7 +28,7 @@ public class Environment extends Observable {
 
     public static final int DETECTORS_NUMBER = 5;
     public static final int ORE_NUMBER = 5;
-    public static final int DIGGERS_NUMBER = 7;
+    public static final int DIGGERS_NUMBER = 2;
     public static final int ENERGIZERS_NUMBER = 3;
     public static final int TRANSPORTERS_NUMBER = 7;
 
@@ -51,9 +51,9 @@ public class Environment extends Observable {
         return INSTANCE;
     }
 
-    public synchronized boolean dig(Positionable positionable) {
-        if (get(positionable.getPosition()) instanceof Ore) {
-            return ((Ore) positionable).dig();
+    public synchronized boolean dig(Position pos) {
+        if (get(pos) instanceof Ore) {
+            return ((Ore) get(pos)).dig();
         }
         return false;
     }
@@ -73,7 +73,7 @@ public class Environment extends Observable {
     }
 
     private void init() {
-        this.base.init(ORE_NUMBER, ORE_NUMBER, DETECTORS_NUMBER, DETECTORS_NUMBER, getRandomPosition());
+        this.base.init(getRandomPosition());
         this.add(base);
         for (Positionable positionable : base.getAgents()) {
             positionable.setPosition(getRandomPosition());
