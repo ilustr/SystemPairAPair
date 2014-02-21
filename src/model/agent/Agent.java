@@ -53,6 +53,8 @@ public abstract class Agent implements Runnable, Positionable {
 
     public abstract void doReload();
     
+    public abstract int reload();
+    
     public abstract void doReportToBase();
     
     public void broadcast(String msg) {
@@ -78,15 +80,16 @@ public abstract class Agent implements Runnable, Positionable {
     }
     
     public void doEnergyCheck() {
-        
-        int distBase = Math.abs(this.posBase.x-this.pos.x) + Math.abs(this.posBase.y-this.pos.y);
-        
         // Check if energie is sufficient to return to base
-        if(this.actionPoints < distBase * 1.5)
+        if(this.actionPoints < getDistBase() * 1.5)
         {
             // if not, gotobase = true;
             this.goToBase = true;
         }
+    }
+
+    public int getDistBase() {
+        return Math.abs(this.posBase.x-this.pos.x) + Math.abs(this.posBase.y-this.pos.y);
     }
 
     public boolean isActive() {

@@ -137,4 +137,9 @@ public class Transporter extends Agent {
             return new ImageIcon(getClass().getResource("/images/transporterActive.png"));
         }
     }
+
+    @Override
+    public int reload() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
