@@ -23,12 +23,12 @@ public class Environment extends Observable {
 
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    
+    public static final int MIN_QUANTITY_ORE = 20;
+    public static final int MAX_QUANTITY_ORE = 70;
 
-    public static final int MIN_QUANTITY_ORE = 5;
-    public static final int MAX_QUANTITY_ORE = 20;
-
-    public static final int DETECTORS_NUMBER = 5;
-    public static final int ORE_NUMBER = 5;
+    public static final int DETECTORS_NUMBER = 2;
+    public static final int ORE_NUMBER = 10;
     public static final int DIGGERS_NUMBER = 2;
     public static final int ENERGIZERS_NUMBER = 3;
     public static final int TRANSPORTERS_NUMBER = 3;
@@ -94,7 +94,12 @@ public class Environment extends Observable {
     }
 
     private void init() {
-        this.base.init(getRandomPosition());
+        Position posBase;
+        do{
+            posBase = getRandomPosition();
+        }while ( posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1 );
+        
+        this.base.init(posBase);
         this.add(base);
         for (Positionable positionable : base.getAgents()) {
             positionable.setPosition(getRandomPosition());
@@ -104,7 +109,9 @@ public class Environment extends Observable {
         for (int i = 0; i < ORE_NUMBER; i++) {
             int randomQuantity = (int) (Math.random() * (MAX_QUANTITY_ORE - MIN_QUANTITY_ORE)) + MIN_QUANTITY_ORE;
             Ore ore = new Ore(randomQuantity);
-            ore.setPosition(getRandomPosition());
+            do{
+                ore.setPosition(getRandomPosition());
+            }while(isNextTo(ore, posBase));
             this.add(ore);
         }
     }

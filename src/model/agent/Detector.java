@@ -65,6 +65,8 @@ public class Detector extends Agent{
                 Position newPos = new Position(this.pos.x + i, this.pos.y + j);
                 if (!visitedYet.contains(newPos)) {
                     if (Environment.getInstance().isThereOre(newPos)){
+                        this.active = true;
+                        Environment.getInstance().refreshAgent(this);
                         this.hasOre.add(newPos);
                     }
                     this.visitedYet.add(newPos);
