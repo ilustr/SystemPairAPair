@@ -45,7 +45,6 @@ public class Digger extends Agent {
                 // Dig until everythings has been cleared up
                 if(!Environment.getInstance().dig(siteToDig))
                 {
-                    //System.out.println("FINI DE CREUSER");
                 // once it's finished, mark site has finished
                     this.isOnSite = false;
                     this.goToBase = true;

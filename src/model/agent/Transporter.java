@@ -48,7 +48,7 @@ public class Transporter extends Agent {
             if (isOnSite) {
                 workOnSite();
             } else if (this.goToBase && Environment.isNextTo(this, posBase)) {
-                System.out.println("has reach the base");
+//                System.out.println("has reach the base");
                 this.doReportToBase();
             }
         } else if (Environment.isNextTo(this, posBase)) {
@@ -60,7 +60,7 @@ public class Transporter extends Agent {
     }
 
     public void workOnSite() {
-        System.out.println("Work on site");
+//        System.out.println("Work on site");
        this.active = true;
        Environment.getInstance().refreshAgent(this);
         if (Environment.getInstance().noMoreMisterNiceOre(siteToTransport)) {
@@ -73,7 +73,7 @@ public class Transporter extends Agent {
         oreTransported += Environment.getInstance().loadRsc(siteToTransport, CAPACITY - oreTransported);
      
         if (CAPACITY - oreTransported <= 0) {
-            System.out.println("transporter full "+ oreTransported);
+//            System.out.println("transporter full "+ oreTransported);
             goToBase = true;
             isOnSite = false;
         }
@@ -86,7 +86,7 @@ public class Transporter extends Agent {
 
         if (siteToTransport != null) {
             doLeaveBase();
-            System.out.println("site to transport " + siteToTransport);
+//            System.out.println("site to transport " + siteToTransport);
             goToBase = false;
         }
     }
@@ -97,7 +97,7 @@ public class Transporter extends Agent {
             this.moveTo(posBase);
         } else if (!isOnSite && siteToTransport != null) {
             this.moveTo(siteToTransport);
-            System.out.println("hey ohh + " + this.actionPoints);
+//            System.out.println("hey ohh + " + this.actionPoints);
             if (Environment.isNextTo(this, siteToTransport)) {
                 this.isOnSite = true;
             }
@@ -111,7 +111,7 @@ public class Transporter extends Agent {
 
     @Override
     public void doReportToBase() {
-        System.out.println("reporting to base");
+//        System.out.println("reporting to base");
         doReload();
         
         // drop ressources

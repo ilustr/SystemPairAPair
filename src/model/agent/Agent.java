@@ -18,7 +18,11 @@ import model.utils.Positionable;
  */
 public abstract class Agent implements Runnable, Positionable {
 
-    public static final int TIME_SLEEP_MS = 500;
+    public static final int TIME_SLEEP_COEFF = 5;
+    public static final int TIME_SLEEP_DIGGER_MS = 70 * TIME_SLEEP_COEFF;
+    public static final int TIME_SLEEP_DETECTOR_MS = 30 * TIME_SLEEP_COEFF;
+    public static final int TIME_SLEEP_ENERGIEZR_MS = 60 * TIME_SLEEP_COEFF;
+    public static final int TIME_SLEEP_TRANSPORTER_MS = 100 * TIME_SLEEP_COEFF;
 
     protected int actionPoints;
     protected Position pos;
@@ -78,12 +82,25 @@ public abstract class Agent implements Runnable, Positionable {
 
     @Override
     public final void run() {
+
+        int timeToSleep;
+
+        if (this.getClass().equals(Detector.class)) {
+            timeToSleep = TIME_SLEEP_DETECTOR_MS;
+        } else if (this.getClass().equals(Digger.class)) {
+            timeToSleep = TIME_SLEEP_DIGGER_MS;
+        } else if (this.getClass().equals(Energizer.class)) {
+            timeToSleep = TIME_SLEEP_ENERGIEZR_MS;
+        } else {
+            timeToSleep = TIME_SLEEP_TRANSPORTER_MS;
+        }
+
         while (!kill) {
             try {
                 doWork();
                 this.actionPoints--;
                 this.doEnergyCheck();
-                Thread.sleep(TIME_SLEEP_MS);
+                Thread.sleep(timeToSleep);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Agent.class.getName()).log(Level.SEVERE, null, ex);
             }

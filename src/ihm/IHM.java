@@ -44,9 +44,8 @@ public class IHM extends JFrame implements Observer {
     private void init() {
         for (int i = 0; i < Environment.WIDTH; ++i) {
             for (int j = 0; j < Environment.HEIGHT; j++) {
-                //    System.out.println("i " + i  + " j " + j );
                 Positionable p = Environment.getInstance().get(new Position(i, j));
-                if (p != null) {
+                if (p != null  && !( p instanceof Agent )) {
                     cells[i][j] = new JLabel(p.getDisplayImage());
                 } else {
                     cells[i][j] = new JLabel(" ");

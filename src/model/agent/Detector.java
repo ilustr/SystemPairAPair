@@ -95,10 +95,8 @@ public class Detector extends Agent{
 
     @Override
     public void doReportToBase() {
-        //System.out.println("report1");
         this.active = true;
         for (Position position : this.hasOre) {
-            //System.out.println("report");
             Environment.getInstance().getBase().addDiscovered(position);
         }
         this.hasOre.clear();

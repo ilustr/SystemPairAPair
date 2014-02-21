@@ -97,7 +97,7 @@ public class Base implements Positionable {
         if(discovered.size() > 0)
         {
             Position pos = discovered.get(0);
-            System.out.println("lol "+pos);
+//            System.out.println("lol "+pos);
             discovered.remove(0);
             return pos;
         }
@@ -108,7 +108,7 @@ public class Base implements Positionable {
     public synchronized boolean addDiscovered(Position e) {
         if (addRecord(e)) {
             addToEnergize(e);
-            System.out.println("Add discovered site : "+e.x+ "-"+e.y);
+//            System.out.println("Add discovered site : "+e.x+ "-"+e.y);
             return discovered.add(e);
         } else
             return false;

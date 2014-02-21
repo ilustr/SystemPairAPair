@@ -22,7 +22,7 @@ import model.utils.Position;
 public class Environment extends Observable {
 
     public static final int WIDTH = 15;
-    public static final int HEIGHT = 15;
+    public static final int HEIGHT = 20;
 
     public static final int MIN_QUANTITY_ORE = 20;
     public static final int MAX_QUANTITY_ORE = 70;
@@ -201,30 +201,6 @@ public class Environment extends Observable {
             getInstance().base.getAgentsInside().add(agent);
             getInstance().empty(agent.getPosition());
             getInstance().refreshAgent(agent);
-        }
-    }
-
-    public void displayMap() {
-        System.out.println("");
-        for (int i = 0; i < WIDTH; i++) {
-            System.out.print("|");
-            for (int j = 0; j < HEIGHT; j++) {
-                char print = ' ';
-                if (map[i][j] != null) {
-                    Positionable p = map[i][j];
-                    if (p instanceof Base) {
-                        print = 'B';
-                    } else if (p instanceof Detector) {
-                        print = 'D';
-                    } else if (p instanceof Digger) {
-                        print = 'E';
-                    } else {
-                        print = 'O';
-                    }
-                }
-                System.out.print("" + print + "|");
-            }
-            System.out.println("");
         }
     }
 
