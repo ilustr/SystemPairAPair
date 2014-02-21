@@ -32,6 +32,7 @@ public abstract class Agent implements Runnable, Positionable {
         this.posBase = posBase;
         this.pos = posBase;
         goToBase = true;
+        this.active=  false;
     }
 
     @Override
