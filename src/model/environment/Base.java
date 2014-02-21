@@ -11,6 +11,7 @@ import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
 import model.agent.Energizer;
+import model.agent.Transporter;
 import model.utils.Positionable;
 import model.utils.Position;
 
@@ -27,7 +28,8 @@ public class Base implements Positionable {
     private ArrayList<Position> transported;
     private ArrayList<Position> toEnergize;
     private ArrayList<Position> siteRecorded;
-    private ArrayList<Agent> agentsInside;
+    private int ore;
+    
 
     public Base() { }
 
@@ -38,7 +40,7 @@ public class Base implements Positionable {
         transported = new ArrayList<>();
         toEnergize = new ArrayList<>();
         siteRecorded = new ArrayList<>();
-        agentsInside = new ArrayList<>();
+        ore = 0;
         
         this.setPosition(pos);
 
@@ -56,7 +58,7 @@ public class Base implements Positionable {
         }
 
         for (int i = 0; i < Environment.TRANSPORTERS_NUMBER; ++i) {
-
+            agents.add(new Transporter(this.getPosition()));
         }
 
     }
@@ -93,6 +95,7 @@ public class Base implements Positionable {
         if(discovered.size() > 0)
         {
             Position pos = discovered.get(0);
+            System.out.println("lol "+pos);
             discovered.remove(0);
             return pos;
         }
@@ -113,6 +116,7 @@ public class Base implements Positionable {
         if(extracted.size() > 0)
         {
             Position pos = extracted.get(0);
+            extracted.remove(0);
             return pos;
         }
         else
@@ -122,6 +126,7 @@ public class Base implements Positionable {
     public synchronized boolean addExtracted(Position e) {
         return extracted.add(e);
     }
+    
     public synchronized Position getToEnergize() {
         if(toEnergize.size() > 0)
         {
@@ -151,14 +156,16 @@ public class Base implements Positionable {
     public boolean isSiteKnown(Position e) {
         return siteRecorded.contains(e);
     }
-
-    public ArrayList<Agent> getAgentsInside() {
-        return agentsInside;
+    
+    public void dropRessources(int qte) {
+        ore += qte;
     }
 
-    public void setAgentsInside(ArrayList<Agent> agentsInside) {
-        this.agentsInside = agentsInside;
+    public int getOre() {
+        return ore;
     }
-    
-    
+
+    public void setOre(int ore) {
+        this.ore = ore;
+    }
 }

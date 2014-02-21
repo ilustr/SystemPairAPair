@@ -5,12 +5,7 @@
  */
 package model.environment;
 
-import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import model.agent.Agent;
-import model.agent.Detector;
-import model.agent.Digger;
 import model.utils.Positionable;
 import model.utils.Position;
 
@@ -42,7 +37,7 @@ public class Ore implements Positionable {
     }
     
     public boolean getInStack(){
-        if(this.getStack()-1 > 0){
+        if(this.getStack()-1 >= 0){
             this.setStack(this.getStack()-1);
             return true;
         }else{

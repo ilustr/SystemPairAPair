@@ -11,6 +11,7 @@ import java.util.Observable;
 import model.agent.Agent;
 import model.agent.Detector;
 import model.agent.Digger;
+import model.agent.Transporter;
 import model.utils.Information;
 import model.utils.Position;
 
@@ -56,6 +57,30 @@ public class Environment extends Observable {
             return ((Ore) get(pos)).dig();
         }
         return false;
+    }
+    
+    public synchronized int loadRsc(Position pos, int max) {
+        if (get(pos) instanceof Ore) {
+            int quantity = 0;
+            while  ( ((Ore) get(pos)).getInStack() && quantity < Transporter.LOAD_QUANTITY && quantity < max)
+            {
+                System.out.println("load 1");
+                System.out.println("max :"+max);
+                System.out.println("load qute :"+Transporter.LOAD_QUANTITY);
+                System.out.println("test :"+ (quantity <= Transporter.LOAD_QUANTITY && quantity <= max));
+                quantity++;
+            }
+            System.out.println("quantity : "+quantity);
+            return quantity;
+        }
+        return -1;
+    }
+    
+    public synchronized boolean noMoreMisterNiceOre(Position pos){
+        if (get(pos) instanceof Ore) {
+            return ((Ore) get(pos)).getStack() <= 0;
+        }
+        return true;
     }
 
     public synchronized void add(Positionable positionable) {
