@@ -26,7 +26,7 @@ public class Environment extends Observable {
     public static final int MIN_QUANTITY_ORE = 20;
     public static final int MAX_QUANTITY_ORE = 70;
 
-    public static final int DETECTORS_NUMBER = 5;
+    public static final int DETECTORS_NUMBER = 2;
     public static final int ORE_NUMBER = 10;
     public static final int DIGGERS_NUMBER = 2;
     public static final int ENERGIZERS_NUMBER = 3;
