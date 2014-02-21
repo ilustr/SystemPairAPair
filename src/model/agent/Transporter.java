@@ -45,49 +45,60 @@ public class Transporter extends Agent {
     @Override
     public void doWork() {
         if (siteToTransport != null) {
-            if (isOnSite){
-                if (Environment.getInstance().noMoreMisterNiceOre(siteToTransport))
-                {
-                    goToBase = true;
-                    isOnSite = false;
-                    hasFinished = true;
-                }
-                    
-                if (oreTransported + LOAD_QUANTITY <= CAPACITY) {
-                    oreTransported += Environment.getInstance().loadRsc(siteToTransport);
-                    System.out.println("load");
-                } else {
-                    goToBase = true;
-                    isOnSite = false;
-                }
-                
-            } else if (this.goToBase && Environment.isNextTo(this, posBase))
-            {
+            if (isOnSite) {
+                workOnSite();
+            } else if (this.goToBase && Environment.isNextTo(this, posBase)) {
+                System.out.println("has reach the base");
                 this.doReportToBase();
-            } else {
-                // WALK 
-                doWalk();
             }
-        } else if (Environment.isNextTo(this, posBase)) 
-        {
-            this.siteToTransport = Environment.getInstance().getBase().getExtracted();
-            System.out.println("site to transport "+ siteToTransport);
-            if (siteToTransport != null) {
-                goToBase = false;
-            }
+        } else if (Environment.isNextTo(this, posBase)) {
+            waitForASite();
         }
 
+        // WALK 
+        doWalk();
+    }
+
+    public void workOnSite() {
+        System.out.println("Work on site");
+       
+        if (Environment.getInstance().noMoreMisterNiceOre(siteToTransport)) {
+            goToBase = true;
+            isOnSite = false;
+            hasFinished = true;
+            return;
+        } 
+       
+        oreTransported += Environment.getInstance().loadRsc(siteToTransport, CAPACITY - oreTransported);
+     
+        if (CAPACITY - oreTransported <= 0) {
+            System.out.println("transporter full "+ oreTransported);
+            goToBase = true;
+            isOnSite = false;
+        }
+    }
+
+    public void waitForASite() {
+        doReload();
+
+        this.siteToTransport = Environment.getInstance().getBase().getExtracted();
+
+        if (siteToTransport != null) {
+            System.out.println("site to transport " + siteToTransport);
+            goToBase = false;
+        }
     }
 
     @Override
     public void doWalk() {
         if (goToBase && !Environment.isNextTo(this, posBase)) {
             this.moveTo(posBase);
-        }  else if (!isOnSite && siteToTransport != null) {
+        } else if (!isOnSite && siteToTransport != null) {
             this.moveTo(siteToTransport);
-            
-            if( Environment.isNextTo(this, siteToTransport))
-                this.isOnSite = true;  
+            System.out.println("hey ohh + " + this.actionPoints);
+            if (Environment.isNextTo(this, siteToTransport)) {
+                this.isOnSite = true;
+            }
         }
     }
 
@@ -98,10 +109,14 @@ public class Transporter extends Agent {
 
     @Override
     public void doReportToBase() {
+        System.out.println("reporting to base");
+        doReload();
+        
         // drop ressources
         Environment.getInstance().getBase().dropRessources(oreTransported);
         oreTransported = 0;
-        
+        goToBase = false;
+
         if (hasFinished) {
             siteToTransport = null;
             hasFinished = false;

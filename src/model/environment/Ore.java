@@ -37,7 +37,7 @@ public class Ore implements Positionable {
     }
     
     public boolean getInStack(){
-        if(this.getStack()-1 > 0){
+        if(this.getStack()-1 >= 0){
             this.setStack(this.getStack()-1);
             return true;
         }else{

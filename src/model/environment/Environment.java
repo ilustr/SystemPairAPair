@@ -31,7 +31,7 @@ public class Environment extends Observable {
     public static final int ORE_NUMBER = 10;
     public static final int DIGGERS_NUMBER = 2;
     public static final int ENERGIZERS_NUMBER = 3;
-    public static final int TRANSPORTERS_NUMBER = 3;
+    public static final int TRANSPORTERS_NUMBER = 1;
 
     private Positionable[][] map;
 
@@ -59,14 +59,18 @@ public class Environment extends Observable {
         return false;
     }
     
-    public synchronized int loadRsc(Position pos) {
+    public synchronized int loadRsc(Position pos, int max) {
         if (get(pos) instanceof Ore) {
-            int i = 0;
             int quantity = 0;
-            while  ( ((Ore) get(pos)).getInStack() && i < Transporter.LOAD_QUANTITY )
+            while  ( ((Ore) get(pos)).getInStack() && quantity < Transporter.LOAD_QUANTITY && quantity < max)
             {
+                System.out.println("load 1");
+                System.out.println("max :"+max);
+                System.out.println("load qute :"+Transporter.LOAD_QUANTITY);
+                System.out.println("test :"+ (quantity <= Transporter.LOAD_QUANTITY && quantity <= max));
                 quantity++;
             }
+            System.out.println("quantity : "+quantity);
             return quantity;
         }
         return -1;
