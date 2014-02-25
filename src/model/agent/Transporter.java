@@ -138,7 +138,10 @@ public class Transporter extends Agent {
             this.active = false;
             return new ImageIcon(getClass().getResource("/images/transporterActive.png"));
         } else {
-            return new ImageIcon(getClass().getResource("/images/transporter.png"));
+            if(oreTransported > 0)
+                return new ImageIcon(getClass().getResource("/images/transporterWork.png"));
+            else
+                return new ImageIcon(getClass().getResource("/images/transporter.png"));
         }
     }
 
