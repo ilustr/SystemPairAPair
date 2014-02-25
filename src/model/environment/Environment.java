@@ -251,4 +251,17 @@ public class Environment extends Observable {
         }
         return agents;
     }
+    
+    public synchronized void removeFromMap(Position e) {
+        Information infos = new Information();
+        ArrayList<Position> sendPos = new ArrayList<>();
+        sendPos.add(e);
+        infos.setPos(sendPos);
+        infos.setSource(get(e));
+        
+        map[e.x][e.y] = null;
+        
+        setChanged();
+        notifyObservers(infos);
+    }
 }

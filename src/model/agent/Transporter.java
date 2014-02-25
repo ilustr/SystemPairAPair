@@ -120,8 +120,10 @@ public class Transporter extends Agent {
         goToBase = false;
 
         if (hasFinished) {
-            siteToTransport = null;
+            System.out.println("finish");
             hasFinished = false;
+            Environment.getInstance().removeFromMap(siteToTransport);
+            siteToTransport = null;
         }
     }
 

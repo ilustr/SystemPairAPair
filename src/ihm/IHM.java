@@ -68,7 +68,7 @@ public class IHM extends JFrame implements Observer {
                 cells[infos.getPos().get(1).x][infos.getPos().get(1).y].setIcon(infos.getSource().getDisplayImage());
             }
         } else {
-            cells[infos.getPos().get(1).x][infos.getPos().get(1).y].setIcon(infos.getSource().getDisplayImage());
+            cells[infos.getPos().get(0).x][infos.getPos().get(0).y].setIcon(infos.getSource().getDisplayImage());
         }
     }
 }

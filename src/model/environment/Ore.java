@@ -91,7 +91,10 @@ public class Ore implements Positionable {
         if(isDiggable())
             return new ImageIcon(getClass().getResource("/images/ore.png"));
         else{
-            return new ImageIcon(getClass().getResource("/images/ore_finish.png"));
+            if (getStack() == 0)
+                return null;
+            else
+                return new ImageIcon(getClass().getResource("/images/ore_finish.png"));
         }
     }
     
