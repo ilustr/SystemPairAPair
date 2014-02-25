@@ -110,7 +110,7 @@ public class Transporter extends Agent {
     }
 
     @Override
-    public void doReportToBase() {
+    public synchronized void doReportToBase() {
 //        System.out.println("reporting to base");
         doReload();
         
