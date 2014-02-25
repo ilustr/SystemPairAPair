@@ -53,7 +53,7 @@ public class Energizer extends Agent {
             if (this.actionPoints > getDistBase() * 2) {
                 ArrayList<Agent> agents = Environment.getInstance().getAgentsInRange(this.pos, BROADCAST_RANGE);
                 for (Agent agent : agents) {
-                    if (agent instanceof Digger) {
+                    if (!(agent instanceof Energizer)) {
                         this.active = true;
                         Environment.getInstance().refreshAgent(this);
                         this.actionPoints -= agent.reload();
