@@ -18,7 +18,7 @@ import model.utils.Positionable;
  */
 public abstract class Agent implements Runnable, Positionable {
 
-    public static final int TIME_SLEEP_COEFF = 1;
+    public static final int TIME_SLEEP_COEFF = 10;
     public static final int TIME_SLEEP_DIGGER_MS = 70 * TIME_SLEEP_COEFF;
     public static final int TIME_SLEEP_DETECTOR_MS = 30 * TIME_SLEEP_COEFF;
     public static final int TIME_SLEEP_ENERGIEZR_MS = 60 * TIME_SLEEP_COEFF;
