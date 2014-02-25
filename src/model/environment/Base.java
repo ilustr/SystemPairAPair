@@ -22,13 +22,14 @@ import model.utils.Position;
 public class Base implements Positionable {
 
     private Position position;
-    private ArrayList<Agent> agents;
     private ArrayList<Position> discovered;
     private ArrayList<Position> extracted;
     private ArrayList<Position> transported;
     private ArrayList<Position> toEnergize;
+    private ArrayList<Position> toEnergizeTerminated;
     private ArrayList<Position> siteRecorded;
     private ArrayList<Agent> agentsInside;
+    private ArrayList<Agent> agents;
     private int ore;
     
 
@@ -40,6 +41,7 @@ public class Base implements Positionable {
         extracted = new ArrayList<>();
         transported = new ArrayList<>();
         toEnergize = new ArrayList<>();
+        toEnergizeTerminated = new ArrayList<>();
         siteRecorded = new ArrayList<>();
         agentsInside = new ArrayList<>();
         ore = 0;
@@ -56,11 +58,13 @@ public class Base implements Positionable {
         }
 
         for (int i = 0; i < Environment.ENERGIZERS_NUMBER; ++i) {
-            agents.add(new Energizer(this.getPosition()));
+            Energizer energizer = new Energizer(this.getPosition());
+            agents.add(energizer);
         }
 
         for (int i = 0; i < Environment.TRANSPORTERS_NUMBER; ++i) {
-            agents.add(new Transporter(this.getPosition()));
+            Transporter transporter = new Transporter(this.getPosition());
+            agents.add(transporter);
         }
 
     }
@@ -126,6 +130,7 @@ public class Base implements Positionable {
     }
 
     public synchronized boolean addExtracted(Position e) {
+        this.toEnergizeTerminated.add(e);
         return extracted.add(e);
     }
     
@@ -141,7 +146,10 @@ public class Base implements Positionable {
     }
 
     public synchronized boolean addToEnergize(Position e) {
-        return toEnergize.add(e);
+        if(!this.toEnergizeTerminated.contains(e))
+            return toEnergize.add(e);
+        else
+            return false;
     }
     
     public synchronized boolean addTransported(Position e) {
