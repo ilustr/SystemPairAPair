@@ -130,7 +130,6 @@ public class Base implements Positionable {
     }
 
     public synchronized boolean addExtracted(Position e) {
-        this.toEnergizeTerminated.add(e);
         return extracted.add(e);
     }
     
@@ -144,6 +143,11 @@ public class Base implements Positionable {
         else
             return null;
     }
+    
+    public synchronized boolean addToEnergizeTerminated(Position e) {
+        return this.toEnergizeTerminated.add(e);
+    }
+        
 
     public synchronized boolean addToEnergize(Position e) {
         if(!this.toEnergizeTerminated.contains(e))

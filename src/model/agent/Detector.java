@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import static model.agent.Digger.PA_MAX;
 import model.environment.Environment;
 import model.utils.Position;
 
@@ -124,6 +125,8 @@ public class Detector extends Agent{
 
     @Override
     public int reload() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int diff = PA_MAX - this.actionPoints;
+        this.doReload();
+        return diff;
     }
 }

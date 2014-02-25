@@ -6,6 +6,7 @@
 package model.agent;
 
 import javax.swing.ImageIcon;
+import static model.agent.Digger.PA_MAX;
 import model.environment.Environment;
 import model.utils.Position;
 
@@ -122,6 +123,7 @@ public class Transporter extends Agent {
         if (hasFinished) {
             System.out.println("finish");
             hasFinished = false;
+            Environment.getInstance().getBase().addToEnergizeTerminated(siteToTransport);
             Environment.getInstance().removeFromMap(siteToTransport);
             siteToTransport = null;
         }
@@ -144,6 +146,8 @@ public class Transporter extends Agent {
 
     @Override
     public int reload() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int diff = PA_MAX - this.actionPoints;
+        this.doReload();
+        return diff;
     }
 }

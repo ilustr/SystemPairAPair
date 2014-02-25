@@ -108,13 +108,11 @@ public class Environment extends Observable {
         Position posBase;
         do {
             posBase = getRandomPosition();
-        }while (posBase.x == 0|| posBase.x == WIDTH-1 || posBase.y == 0 || posBase.y == HEIGHT-1);
+        }while (posBase.x == 0|| posBase.x == WIDTH-2 || posBase.y == 0 || posBase.y == HEIGHT-2);
         
         this.base.init(posBase);
-        this.add(base);
         for (Positionable positionable : base.getAgents()) {
-            positionable.setPosition(getRandomPosition());
-            this.add(positionable);
+            positionable.setPosition(Environment.getPopPosition(posBase));
         }
 
         for (int i = 0; i < ORE_NUMBER; i++) {
@@ -125,6 +123,7 @@ public class Environment extends Observable {
             } while (isNextTo(ore, posBase));
             this.add(ore);
         }
+        this.add(base);
     }
 
     private boolean isInsideTheMap(Position pos) {
@@ -139,6 +138,10 @@ public class Environment extends Observable {
             y = (int) (Math.random() * (HEIGHT));
         } while (map[x][y] != null);
         return new Position(x, y);
+    }
+    
+    public static synchronized Position getPopPosition(Position base){
+       return new Position(base.x +1 ,base.y+1);
     }
 
     public synchronized Position getEmptyPositionAroundBase() {
